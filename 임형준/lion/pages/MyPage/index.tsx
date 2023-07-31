@@ -1,4 +1,4 @@
-import React from "react";
+
 import styled from "@emotion/styled";
 import GrowthLogSection from "../../src/components/units/mypage/GrowthLogSection";
 
@@ -41,7 +41,7 @@ const MyPage = (): JSX.Element => {
   ];
 
   const studyTimes = [
-    { id: 1, date: "2023-07-20", time: "2 hours" },
+    { id: 1, date: "2023-07-21", time: "2 hours" },
     { id: 2, date: "2023-07-19", time: "1.5 hours" },
     // Add more study times here
   ];
