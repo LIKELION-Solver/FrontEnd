@@ -2,6 +2,7 @@ import type { AppProps } from "next/app";
 import Layout from "../src/components/commons/layout";
 import { Global } from "@emotion/react";
 import { RecoilRoot } from "recoil";
+//import "../pages/QnA/QnA.scss";
 
 export default function App({ Component, pageProps }: AppProps): JSX.Element {
   // common settings that can be done on all pages
