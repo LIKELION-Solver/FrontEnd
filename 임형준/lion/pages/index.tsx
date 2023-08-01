@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+//메인페이지
 const images = [
   'https://via.placeholder.com/300',
   'https://via.placeholder.com/300',
