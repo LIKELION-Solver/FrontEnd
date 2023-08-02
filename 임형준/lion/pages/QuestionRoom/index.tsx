@@ -155,7 +155,7 @@ const QuestionRoom = (): JSX.Element => {
             placeholder="Search questions..."
           />
           <WriteQuestionButton onClick={() => {
-              onClickHeader("/QnACategory");
+              onClickHeader("/QnaWrite");
             }}>Write a Question</WriteQuestionButton>
         </div>
         
