@@ -15,51 +15,23 @@ import {
   SlideFadeInDropdown,
   SlideFadeOutDropdown,
 } from "./headercss";
-//버튼 누를시 dropdown 애니메이션 함수
-// interface DropdownProps {
-//   visibility: boolean;
-//   children: React.ReactNode;
-// }
-
-// const Dropdown: React.FC<DropdownProps> = ({ visibility, children }) => {
-//   const [visibilityAnimation, setVisibilityAnimation] = useState(false);
-//   const [repeat, setRepeat] = useState<NodeJS.Timeout | null>(null);
-
-//   useEffect(() => {
-//     if (visibility) {
-//       if (repeat) {
-//         clearTimeout(repeat);
-//         setRepeat(null);
-//       }
-//       setVisibilityAnimation(true);
-//     } else {
-//       setRepeat(setTimeout(() => {
-//         setVisibilityAnimation(false);
-//       }, 400));
-//     }
-//   }, [visibility, repeat]);
-
-//   return (
-//     <article className={`components-dropdown ${visibility ? 'slide-fade-in-dropdown' : 'slide-fade-out-dropdown'}`}>
-//       {visibilityAnimation && children}
-//     </article>
-//   );
-// };
-
-
 
 const LayoutHeader = (): JSX.Element => {
   const router = useRouter();
-  const [isLoginVisible, setIsLoginVisible] =useRecoilState(isLoginVisibleState);
+  const [isLoginVisible, setIsLoginVisible] =
+    useRecoilState(isLoginVisibleState);
   const [userName, setUserName] = useRecoilState(userNameState); // Use the Recoil state for userName
-  const [isUserNameButtonSelected, setIsUserNameButtonSelected] =useState(false);
+  const [isUserNameButtonSelected, setIsUserNameButtonSelected] =
+    useState(false);
 
-  //dropdown 상태
   const [dropdownVisibility, setDropdownVisibility] = useState(false);
+
+  const [isHovered, setIsHovered] = useState(false);
+  const [isQuestionButtonHovered, setIsQuestionButtonHovered] = useState(false);
+
   const onClickHeader = (path: string): void => {
     setIsLoginVisible(false); // Hide the login floating window before navigating
     void router.push(path);
-    
   };
 
   const onClickLogin = (): void => {
@@ -82,20 +54,23 @@ const LayoutHeader = (): JSX.Element => {
     setUserName(null); // Set the userName in Recoil state to null upon logout
   };
 
-  // Check if the user is already logged in and hide the login window
-  const [isHovered, setIsHovered] = useState(false);
-
-  const onMouseEnterDropdown = () => {
+  const onMouseEnterQuestionDropdown = () => {
     setDropdownVisibility(true);
+    setIsQuestionButtonHovered(true);
   };
 
-  const onMouseLeaveDropdown = () => {
+  const onMouseLeaveQuestionDropdown = () => {
     setDropdownVisibility(false);
+    setIsQuestionButtonHovered(false);
   };
 
   return (
     <>
-      <NavBarWrapper>
+      <NavBarWrapper
+        isExpanded={isLoginVisible}
+        isDropdownVisible={dropdownVisibility}
+        isHovered={isUserNameButtonSelected || isQuestionButtonHovered}
+      >
         <Logo
           onClick={() => {
             onClickHeader("/");
@@ -108,37 +83,34 @@ const LayoutHeader = (): JSX.Element => {
           />
         </Logo>
         <NavLinks>
-          <div>
           <NavLink
             onClick={() => {
               onClickHeader("/QuestionRoom");
             }}
-            onMouseEnter={onMouseEnterDropdown}
-            onMouseLeave={onMouseLeaveDropdown}
+            onMouseEnter={onMouseEnterQuestionDropdown}
+            onMouseLeave={onMouseLeaveQuestionDropdown}
             className={router.pathname === "/QuestionRoom" ? "selected" : ""}
           >
             질문방
+            {dropdownVisibility ? (
+              <SlideFadeInDropdown isVisible={dropdownVisibility}>
+                <ul>
+                  <li>질문방 들어가기</li>
+                  <li>글쓰기</li>
+                  <li>글 수정하기</li>
+                </ul>
+              </SlideFadeInDropdown>
+            ) : (
+              <SlideFadeOutDropdown isVisible={!dropdownVisibility}>
+                <ul>
+                  <li>질문방 들어가기</li>
+                  <li>글쓰기</li>
+                  <li>글 수정하기</li>
+                </ul>
+              </SlideFadeOutDropdown>
+            )}
           </NavLink>
-          {dropdownVisibility ? (
-        <SlideFadeInDropdown>
-          <ul>
-            <li>질문방 들어가기</li>
-            <li>글쓰기</li>
-            <li>글 수정하기</li>
-            
-          </ul>
-        </SlideFadeInDropdown>
-      ) : (
-        <SlideFadeOutDropdown>
-          <ul>
-          <li>질문방 들어가기</li>
-            <li>글쓰기</li>
-            <li>글 수정하기</li>
-          </ul>
-        </SlideFadeOutDropdown>
-      )}
-          </div>
-          
+
           <NavLink
             onClick={() => {
               onClickHeader("/blog");

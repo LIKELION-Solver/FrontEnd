@@ -1,13 +1,13 @@
-import styled from "@emotion/styled";
 import React, { useState } from "react";
-import Slider from 'react-slick';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import { Footer } from "../src/components/units/login/logincss";
 //메인페이지
 const images = [
-  'https://via.placeholder.com/300',
-  'https://via.placeholder.com/300',
-  'https://via.placeholder.com/300',
+  "https://via.placeholder.com/300",
+  "https://via.placeholder.com/300",
+  "https://via.placeholder.com/300",
   // 여기에 원하는 이미지 URL을 추가합니다.
 ];
 
@@ -29,7 +29,6 @@ const SliderComponent = () => {
 
   return (
     <div>
-      
       {showSlider && (
         <div className="slider-container">
           <Slider {...settings}>
@@ -44,9 +43,11 @@ const SliderComponent = () => {
     </div>
   );
 };
+
 export default function Home(): JSX.Element {
   return (
-    <SliderComponent/>
-  )
-  
+    <>
+      <SliderComponent />
+    </>
+  );
 }
