@@ -223,8 +223,8 @@ const QuestionRoom = (): JSX.Element => {
               {renderQuestions.map((question) => (
                 <QuestionCard key={question.id}>
                   <h3>{question.title}</h3>
-                  <p>{question.body}</p>
-                  <p>Author: {question.userId}</p>
+                  {/* <p>{question.body}</p>
+                  <p>Author: {question.userId}</p> */}
                 </QuestionCard>
               ))}
             </InfiniteScroll>
