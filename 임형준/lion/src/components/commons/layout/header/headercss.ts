@@ -1,6 +1,6 @@
 /* header/headercss.ts */
 import styled from "@emotion/styled";
-
+import { keyframes } from '@emotion/react';
 export const NavBarWrapper = styled.nav`
   display: flex;
   align-items: center;
@@ -90,5 +90,42 @@ export const UserNameButton = styled(NavLink)`
       background-color: transparent;
       color: #fff;
     }
+  }
+`;
+
+export const slideFadeInDropdownAnimation = keyframes`
+  0% {
+    transform: translateY(-100%);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+`;
+
+export const SlideFadeInDropdown = styled.div`
+  overflow: hidden;
+
+  > ul {
+    animation: ${slideFadeInDropdownAnimation} 0.4s ease;
+  }
+`;
+
+export const slideFadeOutDropdownAnimation = keyframes`
+  0% {
+    transform: translateY(0%);
+  }
+
+  100% {
+    transform: translateY(-100%);
+  }
+`;
+
+export const SlideFadeOutDropdown = styled.div`
+  overflow: hidden;
+
+  > ul {
+    animation: ${slideFadeOutDropdownAnimation} 0.4s ease;
+    animation-fill-mode: forwards;
   }
 `;

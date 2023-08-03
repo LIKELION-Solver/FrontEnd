@@ -12,19 +12,54 @@ import {
   NavLinks,
   UserNameButton,
   UserNameSection,
+  SlideFadeInDropdown,
+  SlideFadeOutDropdown,
 } from "./headercss";
+//버튼 누를시 dropdown 애니메이션 함수
+// interface DropdownProps {
+//   visibility: boolean;
+//   children: React.ReactNode;
+// }
+
+// const Dropdown: React.FC<DropdownProps> = ({ visibility, children }) => {
+//   const [visibilityAnimation, setVisibilityAnimation] = useState(false);
+//   const [repeat, setRepeat] = useState<NodeJS.Timeout | null>(null);
+
+//   useEffect(() => {
+//     if (visibility) {
+//       if (repeat) {
+//         clearTimeout(repeat);
+//         setRepeat(null);
+//       }
+//       setVisibilityAnimation(true);
+//     } else {
+//       setRepeat(setTimeout(() => {
+//         setVisibilityAnimation(false);
+//       }, 400));
+//     }
+//   }, [visibility, repeat]);
+
+//   return (
+//     <article className={`components-dropdown ${visibility ? 'slide-fade-in-dropdown' : 'slide-fade-out-dropdown'}`}>
+//       {visibilityAnimation && children}
+//     </article>
+//   );
+// };
+
+
 
 const LayoutHeader = (): JSX.Element => {
   const router = useRouter();
-  const [isLoginVisible, setIsLoginVisible] =
-    useRecoilState(isLoginVisibleState);
+  const [isLoginVisible, setIsLoginVisible] =useRecoilState(isLoginVisibleState);
   const [userName, setUserName] = useRecoilState(userNameState); // Use the Recoil state for userName
-  const [isUserNameButtonSelected, setIsUserNameButtonSelected] =
-    useState(false);
+  const [isUserNameButtonSelected, setIsUserNameButtonSelected] =useState(false);
 
+  //dropdown 상태
+  const [dropdownVisibility, setDropdownVisibility] = useState(false);
   const onClickHeader = (path: string): void => {
     setIsLoginVisible(false); // Hide the login floating window before navigating
     void router.push(path);
+    
   };
 
   const onClickLogin = (): void => {
@@ -50,6 +85,14 @@ const LayoutHeader = (): JSX.Element => {
   // Check if the user is already logged in and hide the login window
   const [isHovered, setIsHovered] = useState(false);
 
+  const onMouseEnterDropdown = () => {
+    setDropdownVisibility(true);
+  };
+
+  const onMouseLeaveDropdown = () => {
+    setDropdownVisibility(false);
+  };
+
   return (
     <>
       <NavBarWrapper>
@@ -65,14 +108,37 @@ const LayoutHeader = (): JSX.Element => {
           />
         </Logo>
         <NavLinks>
+          <div>
           <NavLink
             onClick={() => {
               onClickHeader("/QuestionRoom");
             }}
+            onMouseEnter={onMouseEnterDropdown}
+            onMouseLeave={onMouseLeaveDropdown}
             className={router.pathname === "/QuestionRoom" ? "selected" : ""}
           >
             질문방
           </NavLink>
+          {dropdownVisibility ? (
+        <SlideFadeInDropdown>
+          <ul>
+            <li>질문방 들어가기</li>
+            <li>글쓰기</li>
+            <li>글 수정하기</li>
+            
+          </ul>
+        </SlideFadeInDropdown>
+      ) : (
+        <SlideFadeOutDropdown>
+          <ul>
+          <li>질문방 들어가기</li>
+            <li>글쓰기</li>
+            <li>글 수정하기</li>
+          </ul>
+        </SlideFadeOutDropdown>
+      )}
+          </div>
+          
           <NavLink
             onClick={() => {
               onClickHeader("/blog");
