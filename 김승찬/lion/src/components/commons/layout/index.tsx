@@ -19,24 +19,40 @@ const Wrapper = styled.div`
   width: 100%;
   height: 100vh;
   position: relative;
-  overflow: hidden;
+  /* overflow: hidden; */
 `;
 
 const ContentWrapper = styled.div`
+  position: relative;
+  top: 0;
+  left: 0;
   min-height: calc(
-    100vh - 60px - 50px
+    100vh - 115px - 50px
   ); /* Account for header and footer heights */
-  padding-top: 60px; /* Set to the same height as the header */
+  padding-top: 115px; /* Set to the same height as the header */
   padding-bottom: 50px; /* Set to the height of the footer */
   overflow-y: auto; /* Enable vertical scrolling for the content */
+
+  /* Adjust for header navigation bar */
+  @media (min-height: 320px) {
+    position: relative;
+    top: 0;
+    left: 0;
+    min-height: calc(
+      100vh - 115px - 50px
+    ); /* Account for header and footer heights */
+    padding-top: 115px; /* Set to the same height as the header */
+    padding-bottom: 50px; /* Set to the height of the footer */
+    overflow-y: auto;
+  }
 `;
 
 const FootWrapper = styled.div`
   width: 100%;
   height: 50px; /* Set to the height of the footer */
-  position: fixed;
+  /* position: fixed; */
   bottom: 0;
-  z-index: 9;
+  /* z-index: 9; */
 `;
 
 interface ILayoutProps {
@@ -60,9 +76,7 @@ export default function Layout(props: ILayoutProps): JSX.Element {
       <ContentWrapper>
         {/* {!isHiddenBanner && <LayoutBanner />}
         {!isHiddenNavigation && <LayoutNavigation />} */}
-        <div>
-          <div>{props.children}</div>
-        </div>
+        {props.children}
       </ContentWrapper>
       <FootWrapper>{!isHiddenFooter && <LayoutFooter />}</FootWrapper>
     </Wrapper>

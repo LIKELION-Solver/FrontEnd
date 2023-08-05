@@ -2,13 +2,16 @@ import styled from "@emotion/styled";
 import palette from "../../../../styles/palette";
 import Button from "../../../components/commons/button/loginbutton";
 
+// export const LoginPosition = styled.div`
+//   display: "flex";
+//   justify-content: "flex-end";
+// `;
+
 export const LoginWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end; /* Change 'flex-end' to 'flex-start' to move it to the upper left corner */
-  align-items: flex-end; /* Change 'center' to 'flex-start' to move it to the upper left corner */
-  margin-top: 30px; /* Add some margin at the top for better positioning */
-  margin-left: 30px;
+  position: fixed; // 어떤 페이지든 상관 없게 위치를 고정
+  z-index: 1; // 가장 우선순위를 높게 만듬
+  margin-top: 10%;
+  margin-right: -10.8%;
 `;
 
 export const LoginFormWrapper = styled.div`
@@ -20,7 +23,7 @@ export const LoginFormWrapper = styled.div`
     content: "";
     position: absolute;
     bottom: 100%;
-    left: 50%;
+    left: 31%;
     margin-left: -10px;
     border-width: 10px;
     border-style: solid;
@@ -29,7 +32,7 @@ export const LoginFormWrapper = styled.div`
 
   @media (max-width: 768px) {
     /* 작은 화면에 대한 위치 조정 */
-    width: calc(100% - 20px);
+    width: calc(100% - 40px);
     left: 10px;
     top: calc(100% + 1rem);
     transform: none;
@@ -37,7 +40,7 @@ export const LoginFormWrapper = styled.div`
 
   @media (min-width: 769px) and (max-width: 1024px) {
     /* 중간 크기 화면에 대한 위치 조정 */
-    width: calc(100% - 20px);
+    width: calc(100% - 40px);
     left: 10px;
     top: calc(100% + 1rem);
     transform: none;
@@ -45,7 +48,7 @@ export const LoginFormWrapper = styled.div`
 
   @media (min-width: 1025px) {
     /* 큰 화면에 대한 위치 조정 */
-    width: 300px;
+    width: calc(100% - 250px);
     left: 50px;
     top: 100px;
     transform: none;
