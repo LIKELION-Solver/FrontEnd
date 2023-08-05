@@ -7,6 +7,7 @@ import {
   StyledInput,
   LoginWrapper,
   LoginFormWrapper,
+  LoginPosition,
 } from "./logincss";
 
 import KakaoLoginButton from "./KakaoLoginButton";
@@ -41,35 +42,37 @@ const Login = (): JSX.Element => {
   };
 
   return (
-    <LoginWrapper>
-      <LoginFormWrapper>
-        <h3 style={{ marginBottom: "4px" }}>로그인</h3>
-        <form onSubmit={onSubmitLogin}>
-          <StyledInput
-            autoComplete="username"
-            name="username"
-            placeholder="id"
-            value={formData.username}
-            onChange={onChangeInput}
-          />
-          <StyledInput
-            autoComplete="current-password"
-            name="password"
-            placeholder="password"
-            type="password"
-            value={formData.password}
-            onChange={onChangeInput}
-          />
-          <ButtonWithMarginTop fullWidth type="submit">
-            login
-          </ButtonWithMarginTop>
-        </form>
-        <KakaoLoginButton />
-        <Footer>
-          <Link href="/Register">회원가입</Link>
-        </Footer>
-      </LoginFormWrapper>
-    </LoginWrapper>
+    <div style={{ display: "flex", justifyContent: "flex-end" }}>
+      <LoginWrapper>
+        <LoginFormWrapper>
+          <h3 style={{ marginBottom: "4px" }}>로그인</h3>
+          <form onSubmit={onSubmitLogin}>
+            <StyledInput
+              autoComplete="username"
+              name="username"
+              placeholder="id"
+              value={formData.username}
+              onChange={onChangeInput}
+            />
+            <StyledInput
+              autoComplete="current-password"
+              name="password"
+              placeholder="password"
+              type="password"
+              value={formData.password}
+              onChange={onChangeInput}
+            />
+            <ButtonWithMarginTop fullWidth type="submit">
+              login
+            </ButtonWithMarginTop>
+          </form>
+          <KakaoLoginButton />
+          <Footer>
+            <Link href="/Register">회원가입</Link>
+          </Footer>
+        </LoginFormWrapper>
+      </LoginWrapper>
+    </div>
   );
 };
 
