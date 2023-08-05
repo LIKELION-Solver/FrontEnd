@@ -21,11 +21,10 @@ export const NavBarWrapper = styled.nav<{
   border-bottom: 1px solid #d8d8d8;
   z-index: 1000;
   height: ${({ isExpanded, isDropdownVisible }) =>
-    isExpanded || isDropdownVisible ? "300px" : "70px"};
+    isExpanded || isDropdownVisible ? "250px" : "70px"};
   transition: max-height 0.3s ease, height 0.3s ease;
 
-  /* Add this style to keep content from overlapping when header expands */
-  /* box-sizing: border-box; */
+  /* box-sizing: border-box; */ // 최소요소 사이즈에 맞게
 `;
 
 export const DynamicNavBarWrapper = styled(NavBarWrapper)`
@@ -95,6 +94,7 @@ export const DropdownItem = styled.div`
   padding: 10px 20px;
   font-size: 16px;
   text-align: center;
+  justify-content: center;
 
   &:hover {
     background-color: #f2f2f2;

@@ -23,15 +23,17 @@ const Wrapper = styled.div`
 `;
 
 const ContentWrapper = styled.div`
-  min-height: calc(100vh - 60px); /* Account for the header height */
+  min-height: calc(
+    100vh - 60px - 50px
+  ); /* Account for header and footer heights */
   padding-top: 60px; /* Set to the same height as the header */
-  padding-bottom: 30px; /* Set to the height of the footer */
+  padding-bottom: 50px; /* Set to the height of the footer */
   overflow-y: auto; /* Enable vertical scrolling for the content */
 `;
 
 const FootWrapper = styled.div`
   width: 100%;
-  height: 40px;
+  height: 50px; /* Set to the height of the footer */
   position: fixed;
   bottom: 0;
   z-index: 9;

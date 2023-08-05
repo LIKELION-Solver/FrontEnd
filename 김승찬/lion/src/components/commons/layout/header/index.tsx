@@ -6,24 +6,24 @@ import { useRecoilState } from "recoil";
 import { isLoginVisibleState, userNameState } from "./recoilState";
 import LoginButton from "../../../units/login";
 import {
-  NavBarWrapper,
   Logo,
-  NavLink,
-  NavLinks,
-  UserNameButton,
-  UserNameSection,
+  StyledLink,
+  StyledDropdown,
+  DropdownItem,
+  DynamicNavBarWrapper,
 } from "./headercss";
 
 const LayoutHeader = (): JSX.Element => {
   const router = useRouter();
   const [isLoginVisible, setIsLoginVisible] =
     useRecoilState(isLoginVisibleState);
-  const [userName, setUserName] = useRecoilState(userNameState); // Use the Recoil state for userName
+  const [userName, setUserName] = useRecoilState(userNameState);
   const [isUserNameButtonSelected, setIsUserNameButtonSelected] =
     useState(false);
+  const [dropdownVisibility, setDropdownVisibility] = useState(false);
 
   const onClickHeader = (path: string): void => {
-    setIsLoginVisible(false); // Hide the login floating window before navigating
+    setIsLoginVisible(false);
     void router.push(path);
   };
 
@@ -31,28 +31,70 @@ const LayoutHeader = (): JSX.Element => {
     setIsLoginVisible(!isLoginVisible);
   };
 
-  // Hide the login floating window when navigating to a different page
-  useEffect(() => {
-    const handleRouteChange = (): void => {
-      setIsLoginVisible(false);
-    };
-    router.events.on("routeChangeStart", handleRouteChange);
-    return () => {
-      router.events.off("routeChangeStart", handleRouteChange);
-    };
-  }, [router, setIsLoginVisible]);
-
   const onClickLogout = (): void => {
     localStorage.removeItem("isLoggedIn");
-    setUserName(null); // Set the userName in Recoil state to null upon logout
+    setUserName(null);
   };
 
-  // Check if the user is already logged in and hide the login window
-  const [isHovered, setIsHovered] = useState(false);
+  const onMouseHeaderDropdown = () => {
+    setDropdownVisibility(!dropdownVisibility);
+  };
+
+  const onMouseHeaderDropIn = () => {
+    setDropdownVisibility(false);
+  };
+
+  const renderDropdownContent = () => {
+    console.log("Rendering dropdown content");
+    return (
+      <div>
+        <DropdownItem>
+          <StyledLink
+            onClick={() => {
+              onClickHeader("/MyPage");
+            }}
+            className={router.pathname === "/MyPage" ? "selected" : ""}
+          >
+            마이페이지
+          </StyledLink>
+        </DropdownItem>
+        <DropdownItem>
+          <StyledLink onClick={onClickLogout}>로그아웃</StyledLink>
+        </DropdownItem>
+      </div>
+    );
+  };
+
+  const renderDropdownQuestion = () => {
+    console.log("Rendering dropdown question");
+    return (
+      <div>
+        <DropdownItem>
+          <StyledLink onClick={() => onClickHeader("/QuestionRoom")}>
+            질문방 입장
+          </StyledLink>
+        </DropdownItem>
+        <DropdownItem>
+          <StyledLink onClick={() => onClickHeader("/Write")}>
+            질문 작성
+          </StyledLink>
+        </DropdownItem>
+        <DropdownItem>
+          <StyledLink onClick={() => onClickHeader("/EditPost")}>
+            질문 수정
+          </StyledLink>
+        </DropdownItem>
+      </div>
+    );
+  };
 
   return (
     <>
-      <NavBarWrapper>
+      <DynamicNavBarWrapper
+        isExpanded={isLoginVisible}
+        isDropdownVisible={dropdownVisibility}
+        isHovered={isUserNameButtonSelected || dropdownVisibility}
+      >
         <Logo
           onClick={() => {
             onClickHeader("/");
@@ -64,69 +106,73 @@ const LayoutHeader = (): JSX.Element => {
             style={{ width: "130px", height: "70px" }}
           />
         </Logo>
-        <NavLinks>
-          <NavLink
-            onClick={() => {
-              onClickHeader("/QuestionRoom");
-            }}
-            className={router.pathname === "/QuestionRoom" ? "selected" : ""}
-          >
-            질문방
-          </NavLink>
-          <NavLink
-            onClick={() => {
-              onClickHeader("/blog");
-            }}
-            className={router.pathname === "/blog" ? "selected" : ""}
-          >
-            지식 공유
-          </NavLink>
-          <UserNameButton
-            isLoginVisible={isLoginVisible}
-            onClick={() => {
-              setIsUserNameButtonSelected((prev) => !prev); // Toggle the isUserNameButtonSelected state
-              onClickLogin();
-            }}
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
-            disabled={!!userName} // Disable the UserNameButton when the user is logged in
-            className={
-              (isLoginVisible || (userName && isUserNameButtonSelected)) &&
-              !userName
-                ? "selected"
-                : ""
-            }
-          >
-            {userName ? (
-              <>
-                <UserOutlined />
-                {`Welcome ${userName}!`}
-                <UserNameSection
-                  isHovered={isHovered}
-                  isLoggedIn={!userName || isUserNameButtonSelected}
-                >
-                  <NavLink
-                    onClick={() => {
-                      onClickHeader("/MyPage");
-                    }}
-                    className={router.pathname === "/MyPage" ? "selected" : ""}
-                  >
-                    마이페이지
-                  </NavLink>
-                  {userName && (
-                    <NavLink onClick={onClickLogout}>로그아웃</NavLink>
-                  )}
-                </UserNameSection>
-              </>
-            ) : (
-              <>
-                <UserOutlined />
-                login
-              </>
-            )}
-          </UserNameButton>
-        </NavLinks>
-      </NavBarWrapper>
+
+        <div style={{ display: "flex" }}>
+          <div>
+            <StyledLink
+              onClick={() => {
+                onClickHeader("/QuestionRoom");
+              }}
+              onMouseEnter={onMouseHeaderDropdown}
+              onMouseLeave={onMouseHeaderDropIn}
+              disabled={!!userName && !isUserNameButtonSelected}
+              className={
+                (isLoginVisible || (userName && isUserNameButtonSelected)) &&
+                !userName
+                  ? "selected"
+                  : ""
+              }
+              style={{ width: "150px" }}
+            >
+              question room
+              {userName && (
+                <StyledDropdown isVisible={dropdownVisibility}>
+                  {renderDropdownQuestion()}
+                </StyledDropdown>
+              )}
+            </StyledLink>
+          </div>
+
+          <div>
+            <StyledLink
+              onClick={() => {
+                onClickHeader("/blog");
+              }}
+              className={router.pathname === "/blog" ? "selected" : ""}
+            >
+              지식 공유방
+            </StyledLink>
+          </div>
+
+          <div>
+            <StyledLink
+              onClick={() => {
+                if (!userName) {
+                  setIsUserNameButtonSelected((prev) => !prev);
+                  onClickLogin();
+                }
+              }}
+              onMouseEnter={onMouseHeaderDropdown}
+              onMouseLeave={onMouseHeaderDropIn}
+              disabled={!!userName && !isUserNameButtonSelected}
+              className={
+                (isLoginVisible || (userName && isUserNameButtonSelected)) &&
+                !userName
+                  ? "selected"
+                  : ""
+              }
+            >
+              <UserOutlined />
+              {userName ? `Welcome ${userName}!` : "login"}
+              {userName && (
+                <StyledDropdown isVisible={dropdownVisibility}>
+                  {renderDropdownContent()}
+                </StyledDropdown>
+              )}
+            </StyledLink>
+          </div>
+        </div>
+      </DynamicNavBarWrapper>
       {isLoginVisible && !userName && <LoginButton />}
     </>
   );

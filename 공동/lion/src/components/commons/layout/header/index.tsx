@@ -6,7 +6,6 @@ import { useRecoilState } from "recoil";
 import { isLoginVisibleState, userNameState } from "./recoilState";
 import LoginButton from "../../../units/login";
 import {
-  NavBarWrapper,
   Logo,
   StyledLink,
   StyledDropdown,
@@ -32,16 +31,6 @@ const LayoutHeader = (): JSX.Element => {
     setIsLoginVisible(!isLoginVisible);
   };
 
-  useEffect(() => {
-    const handleRouteChange = (): void => {
-      setIsLoginVisible(false);
-    };
-    router.events.on("routeChangeStart", handleRouteChange);
-    return () => {
-      router.events.off("routeChangeStart", handleRouteChange);
-    };
-  }, [router, setIsLoginVisible]);
-
   const onClickLogout = (): void => {
     localStorage.removeItem("isLoggedIn");
     setUserName(null);
@@ -66,11 +55,11 @@ const LayoutHeader = (): JSX.Element => {
             }}
             className={router.pathname === "/MyPage" ? "selected" : ""}
           >
-            my page
+            마이페이지
           </StyledLink>
         </DropdownItem>
         <DropdownItem>
-          <StyledLink onClick={onClickLogout}>Logout</StyledLink>
+          <StyledLink onClick={onClickLogout}>로그아웃</StyledLink>
         </DropdownItem>
       </div>
     );
@@ -82,15 +71,17 @@ const LayoutHeader = (): JSX.Element => {
       <div>
         <DropdownItem>
           <StyledLink onClick={() => onClickHeader("/QuestionRoom")}>
-            Enter the question room
+            질문방 입장
           </StyledLink>
         </DropdownItem>
         <DropdownItem>
-          <StyledLink onClick={() => onClickHeader("/Write")}>Write</StyledLink>
+          <StyledLink onClick={() => onClickHeader("/Write")}>
+            질문 작성
+          </StyledLink>
         </DropdownItem>
         <DropdownItem>
           <StyledLink onClick={() => onClickHeader("/EditPost")}>
-            Edit post
+            질문 수정
           </StyledLink>
         </DropdownItem>
       </div>
@@ -124,12 +115,21 @@ const LayoutHeader = (): JSX.Element => {
               }}
               onMouseEnter={onMouseHeaderDropdown}
               onMouseLeave={onMouseHeaderDropIn}
-              className={router.pathname === "/QuestionRoom" ? "selected" : ""}
+              disabled={!!userName && !isUserNameButtonSelected}
+              className={
+                (isLoginVisible || (userName && isUserNameButtonSelected)) &&
+                !userName
+                  ? "selected"
+                  : ""
+              }
+              style={{ width: "150px" }}
             >
               question room
-              <StyledDropdown isVisible={dropdownVisibility}>
-                {renderDropdownQuestion()}
-              </StyledDropdown>
+              {userName && (
+                <StyledDropdown isVisible={dropdownVisibility}>
+                  {renderDropdownQuestion()}
+                </StyledDropdown>
+              )}
             </StyledLink>
           </div>
 
@@ -140,16 +140,14 @@ const LayoutHeader = (): JSX.Element => {
               }}
               className={router.pathname === "/blog" ? "selected" : ""}
             >
-              knowledge sharing
+              지식 공유방
             </StyledLink>
           </div>
 
           <div>
             <StyledLink
               onClick={() => {
-                if (userName) {
-                  setIsUserNameButtonSelected(false);
-                } else {
+                if (!userName) {
                   setIsUserNameButtonSelected((prev) => !prev);
                   onClickLogin();
                 }
@@ -166,9 +164,11 @@ const LayoutHeader = (): JSX.Element => {
             >
               <UserOutlined />
               {userName ? `Welcome ${userName}!` : "login"}
-              <StyledDropdown isVisible={dropdownVisibility}>
-                {renderDropdownContent()}
-              </StyledDropdown>
+              {userName && (
+                <StyledDropdown isVisible={dropdownVisibility}>
+                  {renderDropdownContent()}
+                </StyledDropdown>
+              )}
             </StyledLink>
           </div>
         </div>
