@@ -165,10 +165,9 @@ const LayoutHeader = (): JSX.Element => {
           <div>
             <StyledLink
               onClick={() => {
-                onClickHeader("/blog");
+                onClickHeader("/Study");
               }}
-              className={router.pathname === "/blog" ? "selected" : ""}
-
+              className={router.pathname === "/Party" ? "selected" : ""}
             >
               지식 공유방
             </StyledLink>
