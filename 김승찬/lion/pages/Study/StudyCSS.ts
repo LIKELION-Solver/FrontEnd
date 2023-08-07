@@ -5,29 +5,14 @@ export const PageContainer = styled.div`
   overflow: hidden;
 `;
 
-export const QuestionRoomWrapper = styled.div`
+export const StudyWrapper = styled.div`
   display: flex;
   flex-direction: column;
   margin-top: 20px;
-  padding: 20px; /* Add padding to create some space */
-  flex-grow: 1; /* Allow the content to grow to fill available space */
-
-  /* Limit the height of the content area so it doesn't overlap with the footer */
-  max-height: calc(
-    100vh - 90px
-  ); /* Account for header (60px) + footer (30px) */
-
-  overflow-y: auto; /* Add scrolling if content overflows */
-`;
-
-export const WriteQuestionButton = styled.button`
-  padding: 5px 10px;
-  border: none;
-  border-radius: 5px;
-  background-color: #007bff;
-  color: #fff;
-  cursor: pointer;
-  margin-bottom: 10px;
+  padding: 20px;
+  flex-grow: 1;
+  max-height: calc(100vh - 90px);
+  overflow-y: auto;
 `;
 
 export const FilterTags = styled.div`

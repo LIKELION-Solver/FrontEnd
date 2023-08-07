@@ -7,7 +7,6 @@ import {
   StyledInput,
   LoginWrapper,
   LoginFormWrapper,
-  LoginPosition,
 } from "./logincss";
 
 import KakaoLoginButton from "./KakaoLoginButton";

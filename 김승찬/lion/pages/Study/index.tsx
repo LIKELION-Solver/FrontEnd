@@ -4,17 +4,16 @@ import InfiniteScroll from "react-infinite-scroller";
 import axios from "axios";
 import {
   FilterTags,
-  QuestionCard,
-  QuestionRoomWrapper,
+  PageContainer,
   SearchInput,
   TagButton,
-  WriteQuestionButton,
-  PageContainer,
-} from "./QuestionRoomCSS";
+  QuestionCard,
+  StudyWrapper,
+} from "./StudyCSS";
 import { useRouter } from "next/router";
 import { Question } from "./exampleData";
 
-const QuestionRoom = (): JSX.Element => {
+const StudyRoom = (): JSX.Element => {
   const [selectedTag, setSelectedTag] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [renderQuestions, setRenderQuestions] = useState<Question[]>([]);
@@ -110,10 +109,15 @@ const QuestionRoom = (): JSX.Element => {
   const hasMoreQuestions = renderQuestions.length < filteredQuestions.length;
   const serMoreQuestions = renderQuestions.length < searchedQuestions.length;
 
+  const joinStudyGroup = (roomTag: string) => {
+    // You can implement your logic to join a study group here.
+    // This could include showing a modal, redirecting the user, etc.
+    alert(`Joining the study group with tag: ${roomTag}`);
+  };
+
   return (
     <PageContainer>
-      <QuestionRoomWrapper>
-        {/* FilterTags, SearchInput, WriteQuestionButton */}
+      <StudyWrapper>
         <FilterTags>
           {uniqueTags.map((tag) => (
             <TagButton
@@ -133,13 +137,6 @@ const QuestionRoom = (): JSX.Element => {
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search questions..."
           />
-          <WriteQuestionButton
-            onClick={() => {
-              onClickHeader("/QnaWrite");
-            }}
-          >
-            Write a Question
-          </WriteQuestionButton>
         </div>
 
         <div>
@@ -150,11 +147,14 @@ const QuestionRoom = (): JSX.Element => {
               hasMore={serMoreQuestions}
               useWindow={false}
             >
-              {renderQuestions.map((question) => (
+              {searchedQuestions.map((question) => (
                 <QuestionCard key={question.id}>
                   <h3>{question.title}</h3>
                   <p>{question.body}</p>
-                  <p>사용자: {question.userId}</p>
+                  <p>Author: {question.userId}</p>
+                  <button onClick={() => joinStudyGroup(question.tags[0])}>
+                    Join Study Group
+                  </button>
                 </QuestionCard>
               ))}
             </InfiniteScroll>
@@ -172,18 +172,17 @@ const QuestionRoom = (): JSX.Element => {
                   <h3>{question.title}</h3>
                   <p>{question.body}</p>
                   <p>Author: {question.userId}</p>
+                  <button onClick={() => joinStudyGroup(question.tags[0])}>
+                    Join Study Group
+                  </button>
                 </QuestionCard>
               ))}
             </InfiniteScroll>
           )}
         </div>
-
-        {/* {hasMoreQuestions && (
-          <button onClick={loadMoreQuestions}>Load More</button>
-        )} */}
-      </QuestionRoomWrapper>
+      </StudyWrapper>
     </PageContainer>
   );
 };
 
-export default QuestionRoom;
+export default StudyRoom;

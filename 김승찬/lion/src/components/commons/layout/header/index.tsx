@@ -167,7 +167,7 @@ const LayoutHeader = (): JSX.Element => {
               onClick={() => {
                 onClickHeader("/Study");
               }}
-              className={router.pathname === "/Party" ? "selected" : ""}
+              className={router.pathname === "/Study" ? "selected" : ""}
             >
               지식 공유방
             </StyledLink>
