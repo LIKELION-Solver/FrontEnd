@@ -52,7 +52,7 @@ const SliderComponent = () => {
         {images.map((image, index) => (
           <Slide key={index}>
             <Image src={image} alt={`Slide ${index}`} />
-            <SlideText>공부 그 이상의 모든 것</SlideText>
+            <SlideText>공부 그 이상의 모든 </SlideText>
           </Slide>
         ))}
       </Slider>
