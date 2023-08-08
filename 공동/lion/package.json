@@ -22,7 +22,7 @@
     "apollo-upload-client": "^17.0.0",
     "axios": "^1.4.0",
     "babel-plugin-emotion": "^11.0.0",
-    "firebase": "9.10.0",
+    "firebase": "^10.1.0",
     "graphql": "^16.7.1",
     "kakao-sdk": "^3.1.0",
     "lodash": "^4.17.21",
@@ -60,5 +60,6 @@
   },
   "resolutions": {
     "@types/react": "17.0.2"
-  }
+  },
+  "proxy": "http://localhost:4000"
 }

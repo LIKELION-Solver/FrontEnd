@@ -3,15 +3,15 @@ import { keyframes } from "@emotion/react";
 import styled from "@emotion/styled";
 
 /* 헤더 네비게이션 바를 스타일링하는 컴포넌트 */
-export const NavBarWrapper = styled.nav<{
+const NavBarWrapper = styled.nav<{
   isLogin: boolean;
   isDropdownVisible: boolean;
   isHovered: boolean;
 }>`
   position: fixed; /* 화면 고정 위치 */
-  top: 0;
-  left: 0;
-  right: 0; // top left right를 0으로 하여 fixed로 헤더를 위쪽에 붙임
+  top: 0%;
+  left: 0%;
+  right: 0%; // top left right를 0으로 하여 fixed로 헤더를 위쪽에 붙임
   width: 100%; // 전체 너비를 차지하도로고 요소 너비를 설정
   display: flex; /* 요소를 가로로 배치 */
   justify-content: flex-start; /* 요소 사이의 여백을 균등 분배 */
@@ -34,6 +34,13 @@ export const NavBarWrapper = styled.nav<{
 export const DynamicNavBarWrapper = styled(NavBarWrapper)`
   max-height: ${({ isDropdownVisible }) =>
     isDropdownVisible ? "100%" : "70px"}; /* 최대 높이 설정 */
+  @media (max-width: 768px) {
+    // Adjust the breakpoint as needed
+    flex-direction: column; // Stack the items vertically
+    align-items: center; // Center-align the items
+    gap: 10px; // Decrease the spacing between items
+    padding: 10px; // Add padding to the wrapper
+  }
 `;
 
 /* 로고 스타일링 */
@@ -41,6 +48,7 @@ export const Logo = styled.div`
   padding-left: 10px;
   padding-right: 50%;
   cursor: pointer;
+  /* width: 100%; */
 `;
 
 /* 드롭다운 메뉴 애니메이션 효과를 정의한 키프레임 */

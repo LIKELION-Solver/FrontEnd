@@ -1,7 +1,10 @@
+// /pages/_app.tsx
 import type { AppProps } from "next/app";
 import Layout from "../src/components/commons/layout";
 import { Global, css } from "@emotion/react";
 import { RecoilRoot } from "recoil";
+
+
 
 const globalStyles = css`
   body {
@@ -10,9 +13,6 @@ const globalStyles = css`
 
   * {
     // 모든 스타일에 대해서 적용
-    /* margin: 0;
-    box-sizing: border-box;
-    font-size: 20px; */
     font-family: "myfont";
   }
 
