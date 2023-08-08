@@ -60,5 +60,6 @@
   },
   "resolutions": {
     "@types/react": "17.0.2"
-  }
+  },
+  "proxy": "http://localhost:4000"
 }
