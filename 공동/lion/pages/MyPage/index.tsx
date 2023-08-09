@@ -1,273 +1,117 @@
-// // pages/MyPage/index.tsx
-// import GrowthLogSection from "../../src/components/units/mypage/GrowthLogSection";
-// import {
-//   RowContainer,
-//   SquareComponent,
-//   SquareComponentContainer,
-// } from "./MyPageCss";
-// import MyPageLayout from "./MyPageLayout";
-
-// const MyPage = (): JSX.Element => {
-//   const challenges = [
-//     { id: 1, title: "신출귀몰", content: "페이지 3번 이동하기", image: "" },
-//     {
-//       id: 2,
-//       title: "태초마을",
-//       content: "회원가입하고 질문방 들어가기",
-//       image: "",
-//     },
-//   ];
-
-//   const studyTimes = [
-//     { id: 1, enter: "8월 6일 5시", exit: "8월 7일 7시", hour: "2", min: "12" },
-//     { id: 2, enter: "8월 6일 5시", exit: "8월 7일 7시", hour: "1", min: "30" },
-//   ];
-
-//   const weeklyStudyLog = [
-//     { id: 1, week: "Week 1", hours: "10 hours" },
-//     { id: 2, week: "Week 2", hours: "12 hours" },
-//   ];
-
-//   return (
-//     <MyPageLayout>
-//       <SquareComponentContainer>
-//         <RowContainer>
-//           <SquareComponent>
-//             <GrowthLogSection />
-//           </SquareComponent>
-//           <SquareComponent>
-//             <h3>챌린지</h3>
-//             <ul>
-//               {challenges.map((challenge) => (
-//                 <li key={challenge.id}>{challenge.title}</li>
-//               ))}
-//             </ul>
-//           </SquareComponent>
-//         </RowContainer>
-//         <RowContainer>
-//           <SquareComponent>
-//             <h3>오늘 지식습득 시간</h3>
-//             <ul>
-//               {" "}
-//               {studyTimes.map((studyTime) => (
-//                 <li key={studyTime.id}>
-//                   {studyTime.hour}시간 {studyTime.min}분
-//                 </li>
-//               ))}
-//             </ul>
-//           </SquareComponent>
-//           <SquareComponent>
-//             <h3>주간 학습 기록</h3>
-//             <ul>
-//               {weeklyStudyLog.map((log) => (
-//                 <li key={log.id}>
-//                   {log.week} - {log.hours}
-//                 </li>
-//               ))}
-//             </ul>
-//           </SquareComponent>
-//         </RowContainer>
-//       </SquareComponentContainer>
-//     </MyPageLayout>
-//   );
-// };
-
-// export default MyPage;
-
-import React, { useState } from "react";
-import GrowthLogSection from "../../src/components/units/mypage/GrowthLogSection";
+// pages/MyPage/index.tsx
+import React, { useEffect, useState } from "react";
 import {
   RowContainer,
-  // SquareComponent,
+  SquareComponent,
   SquareComponentContainer,
+  EnlargedContent,
 } from "./MyPageCss";
 import MyPageLayout from "./MyPageLayout";
-import styled from "@emotion/styled";
+import WhenToMeet from "../../src/components/units/mypage/WhenToMeet";
+import Challenge from "../../src/components/units/mypage/Challenge";
+import TodayStudyLog from "../../src/components/units/mypage/TodayStudyLog";
+import AllStudyLog from "../../src/components/units/mypage/AllStudyLog";
 
-const SquareComponent = styled.div`
-  display: flex;
-  border-radius: 10px;
-  padding: 20px;
-  margin-top: 20px;
-  /* 위에는 기본 박스 설정 */
-  flex-basis: calc(50% - 10px);
-  min-height: 150px;
-  border-top: 3px solid #5eb6f6;
-  padding: 20px;
-  background-color: white;
-  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-  border-radius: 10px;
-  transition: box-shadow 0.3s ease;
+const user = {
+  id: 1,
+  username: "exampleUser",
+  loginTime: new Date("2023-08-09T09:00:00"), // Replace with actual login time
+};
 
-  ${({ active }) =>
-    active &&
-    `
-    height: 49%;
-    width: 46%;
-    position: absolute;
-    left: 37%;
-    top: 18%;
-    transform: translate(0%, 0%);
-    z-index: 1;
-    animation: expandAnimation 0.5s ease-in-out forwards, 
-               positionAnimation 0.5s ease-in-out forwards, 
-               hideOtherComponents 0.5s ease-in-out forwards,
-               adjustOtherComponents 0.5s ease-in-out forwards;
-  `}
+const calculateActivityTime = () => {
+  const currentTime = new Date();
+  const timeDifference = currentTime - user.loginTime;
+  const minutes = Math.floor(timeDifference / 60000); // Convert to minutes
+  return minutes;
+};
 
-  @keyframes expandAnimation {
-    0% {
-      transform: scale(1);
-    }
-    25% {
-      transform: scale(1.03) rotate(2deg);
-    }
-    50% {
-      transform: scale(1.05) rotate(-2deg);
-    }
-    75% {
-      transform: scale(1.03) rotate(2deg);
-    }
-    100% {
-      transform: scale(1);
-    }
-  }
-
-  @keyframes hideOtherComponents {
-    0% {
-      opacity: 1;
-      transform: scale(1);
-    }
-    100% {
-      opacity: 0;
-      transform: scale(0);
-    }
-  }
-
-  @keyframes adjustOtherComponents {
-    0% {
-      opacity: 0;
-      transform: scale(0);
-    }
-    100% {
-      opacity: 1;
-      transform: scale(1);
-    }
-  }
-`;
 const MyPage = (): JSX.Element => {
-  const challenges = [
-    { id: 1, title: "Newcomers", content: "Go to page 3", image: "" },
-    {
-      id: 2,
-      title: "Taecho Village",
-      content: "Register and enter the Q&A room",
-      image: "",
-    },
-  ];
+  const [selectedComponent, setSelectedComponent] = useState("");
+  const [enterTime, setEnterTime] = useState(null); // 사용자가 방에 입장한 시간
 
-  const studyTimes = [
-    {
-      id: 1,
-      enter: "August 6th 5pm",
-      exit: "August 7th 7pm",
-      hour: "2",
-      min: "12",
-    },
-    {
-      id: 2,
-      enter: "August 6th 5pm",
-      exit: "August 7th 7pm",
-      hour: "1",
-      min: "30",
-    },
-  ];
+  useEffect(() => {
+    // 사용자가 질문방 페이지로 접속한 경우, localStorage에 저장된 입장 시간을 가져옴
+    const fetchEnterTime = () => {
+      const storedEnterTime = localStorage.getItem("enterTime");
+      if (storedEnterTime) {
+        setEnterTime(new Date(storedEnterTime));
+      }
+    };
 
-  const weeklyStudyLog = [
-    { id: 1, week: "Week 1", hours: "10 hours" },
-    { id: 2, week: "Week 2", hours: "12 hours" },
-  ];
-
-  const [selectedComponent, setSelectedComponent] = useState(null);
+    fetchEnterTime();
+  }, []);
 
   return (
     <MyPageLayout>
       <SquareComponentContainer>
         <RowContainer>
           <SquareComponent
-            onClick={() =>
-              setSelectedComponent(
-                selectedComponent === "growthLog" ? null : "growthLog"
-              )
-            }
-            active={selectedComponent === "growthLog"}
+            onClick={() => {
+              selectedComponent === "StudyLog"
+                ? setSelectedComponent("") // 선택한 컴포넌트 클릭시 true면 빈 문자열로 만들어 확장된 창을 닫고
+                : setSelectedComponent("StudyLog"); // false이면 선택한 컴포넌트로 만들어 창을 확장
+            }}
+            active={selectedComponent === "StudyLog"} // SquareComponent에 active props를 넘김(확장 관련)
           >
-            {selectedComponent === "growthLog" ? (
-             <h1
-             style={{
-               display: "flex",
-               justifyContent: "center",
-               alignItems: "center",
-               width: "100%",
-               height: "100%",
-             }}
-           >
-             Hello
-           </h1>
+            {selectedComponent === "StudyLog" ? (
+              <EnlargedContent>
+                <h3>오늘 공부 시간</h3>
+                <p>활동 시간: {calculateActivityTime()} 분</p>
+              </EnlargedContent>
             ) : (
-              <GrowthLogSection />
+              <TodayStudyLog />
             )}
           </SquareComponent>
           <SquareComponent
-            onClick={() =>
-              setSelectedComponent(
-                selectedComponent === "challenges" ? null : "challenges"
-              )
-            }
-            active={selectedComponent === "challenges"}
+            onClick={() => {
+              selectedComponent === "AllStudyLog"
+                ? setSelectedComponent("")
+                : setSelectedComponent("AllStudyLog");
+            }}
+            active={selectedComponent === "AllStudyLog"}
           >
-            <h3>Challenge</h3>
-            <ul>
-              {challenges.map((challenge) => (
-                <li key={challenge.id}>{challenge.title}</li>
-              ))}
-            </ul>
+            {selectedComponent === "AllStudyLog" ? (
+              <EnlargedContent>
+                <h3>전체 공부 시간</h3>
+                <p>활동 시간: {calculateActivityTime()} 분</p>
+              </EnlargedContent>
+            ) : (
+              <AllStudyLog />
+            )}
           </SquareComponent>
         </RowContainer>
         <RowContainer>
           <SquareComponent
-            onClick={() =>
-              setSelectedComponent(
-                selectedComponent === "studyTimes" ? null : "studyTimes"
-              )
-            }
-            active={selectedComponent === "studyTimes"}
+            onClick={() => {
+              selectedComponent === "WhenToMeet"
+                ? setSelectedComponent("")
+                : setSelectedComponent("WhenToMeet");
+            }}
+            active={selectedComponent === "WhenToMeet"}
           >
-            <h3>Today's knowledge acquisition time</h3>
-            <ul>
-              {studyTimes.map((studyTime) => (
-                <li key={studyTime.id}>
-                  {studyTime.hour} hours {studyTime.min} minutes
-                </li>
-              ))}
-            </ul>
+            {selectedComponent === "WhenToMeet" ? (
+              <EnlargedContent>
+                <h1>Hello</h1>
+              </EnlargedContent>
+            ) : (
+              <WhenToMeet />
+            )}
           </SquareComponent>
           <SquareComponent
-            onClick={() =>
-              setSelectedComponent(
-                selectedComponent === "weeklyStudyLog" ? null : "weeklyStudyLog"
-              )
-            }
-            active={selectedComponent === "weeklyStudyLog"}
+            onClick={() => {
+              selectedComponent === "challenge"
+                ? setSelectedComponent("")
+                : setSelectedComponent("challenge");
+            }}
+            active={selectedComponent === "challenge"}
           >
-            <h3>Weekly Learning Log</h3>
-            <ul>
-              {weeklyStudyLog.map((log) => (
-                <li key={log.id}>
-                  {log.week} - {log.hours}
-                </li>
-              ))}
-            </ul>
+            {selectedComponent === "challenge" ? (
+              <EnlargedContent>
+                <h3>도전과제</h3>
+              </EnlargedContent>
+            ) : (
+              <Challenge />
+            )}
           </SquareComponent>
         </RowContainer>
       </SquareComponentContainer>
