@@ -131,26 +131,27 @@ margin-left: 40px;
   overflow: hidden;
   border-radius: 12px;
   background-image: ${({ imageUrl }) =>
-  `url(${imageUrl})`}; // Replace with your background image URL
+  `url(${imageUrl})`}; 
   background-size: cover;
   background-position: center;
   transition: transform 0.3s ease;
   
-  /* Apply blur based on showHiddenContent only to the background image */
+  // before는 선택한 element앞에 가상 콘텐츠 삽입
   &::before {
     content: "";
     position: absolute;
+    //top,left,right,bottom:0은 부모요소와 일치시키기 위함.
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
     background-image: ${({ imageUrl }) =>
-    `url(${imageUrl})`}; // Replace with your background image URL
+    `url(${imageUrl})`}; 
     background-size: cover;
     background-position: center;
-    filter: ${({ showHiddenContent }) => (showHiddenContent ? 'none' : 'blur(5px)')};
+    filter: ${({ showHiddenContent }) => (showHiddenContent ? 'none' : 'blur(8px)')};
     transition: filter 0.3s ease;
-    z-index: -1; /* Make sure this is rendered below the content */
+    z-index: -1; 
   }
 
   &:hover {
@@ -262,7 +263,7 @@ export default function Home(): JSX.Element {
               <MainIntroContent>
                 <MainIntroTitle>Solver가 바꿀 커뮤니티</MainIntroTitle>
                 <MainIntroDescription>
-                  편리한 커뮤니티 서비스를 경험하세요.
+                  Solver는 종합 커뮤니티 사이트 입니다. 다양한 방안들을 확인해보고 업적을 이루어보세요!
                 </MainIntroDescription>
               </MainIntroContent>
             </HiddenIntroLayout>
