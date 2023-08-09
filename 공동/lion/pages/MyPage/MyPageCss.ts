@@ -16,18 +16,21 @@ export const SidebarContainer = styled.div`
 `;
 
 // 사이드 바 요소 설정
-export const SidebarTab = styled.div`
+export const SidebarTab = styled.div<{
+  selected: boolean;
+}>`
+  // props.selected를 미리 정의
   display: flex;
   align-items: center;
   margin-bottom: 15px;
   justify-content: center;
   cursor: pointer;
   padding: 10px;
-  background-color: ${(props) => (props.selected ? "#5eb6f6" : "#f8f9fa")};
+  background-color: ${({ selected }) => (selected ? "#5eb6f6" : "#f8f9fa")};
   border-radius: 8px;
   font-weight: 600;
   font-size: 16px;
-  color: ${(props) => (props.selected ? "#ffffff" : "#495057")};
+  color: ${({ selected }) => (selected ? "#ffffff" : "#495057")};
   transition: background-color 0.3s ease, color 0.3s ease;
 
   &:hover {
@@ -50,8 +53,11 @@ export const ContentContainer = styled.div`
 `;
 
 // 사각형 컴포넌트 기본 컨테이너
-export const SquareComponent = styled.div`
+export const SquareComponent = styled.div<{
+  active: boolean;
+}>`
   display: flex;
+  flex-direction: column;
   border-radius: 10px;
   padding: 20px;
   margin-top: 20px;
@@ -65,8 +71,60 @@ export const SquareComponent = styled.div`
   border-radius: 10px;
   transition: box-shadow 0.3s ease;
 
-  &:hover {
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  ${({ active }) =>
+    active &&
+    `
+    height: 49%;
+    width: 46%;
+    position: absolute;
+    left: 37%;
+    top: 18%;
+    transform: translate(0%, 0%);
+    z-index: 1;
+    animation: expandAnimation 0.5s ease-in-out forwards, 
+               positionAnimation 0.5s ease-in-out forwards, 
+               hideOtherComponents 0.5s ease-in-out forwards,
+               adjustOtherComponents 0.5s ease-in-out forwards;
+  `}
+
+  @keyframes expandAnimation {
+    0% {
+      transform: scale(1);
+    }
+    25% {
+      transform: scale(1.03) rotate(2deg);
+    }
+    50% {
+      transform: scale(1.05) rotate(-2deg);
+    }
+    75% {
+      transform: scale(1.03) rotate(2deg);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+
+  @keyframes hideOtherComponents {
+    0% {
+      opacity: 1;
+      transform: scale(1);
+    }
+    100% {
+      opacity: 0;
+      transform: scale(0);
+    }
+  }
+
+  @keyframes adjustOtherComponents {
+    0% {
+      opacity: 0;
+      transform: scale(0);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
   }
 `;
 
@@ -82,4 +140,14 @@ export const RowContainer = styled.div`
   display: flex;
   gap: 10%;
   margin-bottom: 20px;
+`;
+
+// 확대된 내용 컨텐츠
+export const EnlargedContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
 `;

@@ -16,7 +16,7 @@ const MyPageLayout = ({ children }) => {
   // Extract the last part of the URL path to determine the active tab
   const currentPath = router.pathname.split("/").pop();
 
-  const handleTabClick = (tab) => {
+  const handleTabClick = (tab: any) => {
     setSelectedTab(tab);
     router.push(`/MyPage/${tab}`); // Update the URL
   };
