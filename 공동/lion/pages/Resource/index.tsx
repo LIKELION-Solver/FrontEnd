@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import styled from '@emotion/styled';
 import Resource from './resource';
-
+import { useRouter } from 'next/router';
 const Container = styled.div`
   max-width: 1000px;
   margin: 0 auto;
@@ -34,6 +34,9 @@ const Table = styled.table`
     font-weight: bold;
     background-color: #f2f2f2;
   }
+  tr{
+    cursor:pointer;
+  }
 `;
 const Total = styled.div`
 margin: 0;
@@ -46,7 +49,7 @@ font-family: 'Pretendard-Regular';
 const Home: React.FC = () => {
   const [posts, setPosts] = useState<Resource[]>([]);
   const [searchTerm, setSearchTerm] = useState<string>('');
-
+  const router = useRouter();
   useEffect(() => {
     async function fetchPosts() {
       try {
@@ -64,8 +67,10 @@ const Home: React.FC = () => {
   const filteredPosts = posts.filter((post) =>
     post.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
-  
-  
+  const handleResourceClick = (postId: number): void => {
+    void router.push(`/Resource/ResourceItem/${postId}`);
+  };
+
   return (
     <Container>
       <Title>자료실</Title>
@@ -87,7 +92,7 @@ const Home: React.FC = () => {
         </thead>
         <tbody>
           {filteredPosts.map((post) => (
-            <tr key={post.id}>
+            <tr key={post.id} onClick={() => handleResourceClick(post.id)} >
               <td>{post.id}</td>
               <td>{post.title}</td>
               <td>{post.userId}</td>

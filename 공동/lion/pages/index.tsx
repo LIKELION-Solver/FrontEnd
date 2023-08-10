@@ -254,16 +254,14 @@ export default function Home(): JSX.Element {
       <MainIntroRow>
         <MainIntroLayout imageUrl="main1.png" showHiddenContent={showHiddenContent} onMouseEnter={toggleHiddenContent} onMouseLeave={toggleHiddenContent}>
           {showHiddenContent ? <MainIntroContent>
-            <MainIntroTitle>Solver가 바꿀 커뮤니티</MainIntroTitle>
-            <MainIntroDescription>
-              편리한 커뮤니티 서비스를 경험하세요.
-            </MainIntroDescription>
+            <MainIntroTitle>어려움은 나누고 성장은 곱하다</MainIntroTitle>
+          
           </MainIntroContent> :
             <HiddenIntroLayout>
               <MainIntroContent>
-                <MainIntroTitle>Solver가 바꿀 커뮤니티</MainIntroTitle>
+                <MainIntroTitle>어려움은 나누고 성장은 곱하다</MainIntroTitle>
                 <MainIntroDescription>
-                  Solver는 종합 커뮤니티 사이트 입니다. 다양한 방안들을 확인해보고 업적을 이루어보세요!
+                Solver를 통해 우리는 보다 더 쉽게 각자의 어려움을 해결하고, 공공의 목표를 해결하는 큰 교육을 이루어 나갈 것입니다. Team Study와 능동적으로 공부 계획을 세우고 책임감을 가지고 목표를 이뤄 보세요.
                 </MainIntroDescription>
               </MainIntroContent>
             </HiddenIntroLayout>
@@ -272,16 +270,14 @@ export default function Home(): JSX.Element {
 
         <MainIntroLayout imageUrl="main2.png" showHiddenContent={showHiddenContent2} onMouseEnter={toggleHiddenContent2} onMouseLeave={toggleHiddenContent2}>
           {showHiddenContent2 ? <MainIntroContent>
-            <MainIntroTitle>커뮤니티하면 첫번째로,<br/> 생각나는 서비스 Solver</MainIntroTitle>
-            <MainIntroDescription>
-              편리한 커뮤니티 서비스를 경험하세요.
-            </MainIntroDescription>
+            <MainIntroTitle>함께 성장하는 재미</MainIntroTitle>
+            
           </MainIntroContent> :
             <HiddenIntroLayout>
               <MainIntroContent>
-                <MainIntroTitle>커뮤니티하면 첫번째로,<br/> 생각나는 서비스 Solver</MainIntroTitle>
+                <MainIntroTitle>함께 성장하는 재미</MainIntroTitle>
                 <MainIntroDescription>
-                  편리한 커뮤니티 서비스를 경험하세요.
+                공부는 지루합니다. Solver의 목표는 그 인식을 깨고 부족한 부분을 채우고 나아가 성장의 재미를 깨닫는 것입니다. 성장 퀘스트를 통해 업적을 달성하고 뿌듯함을 느끼세요!
                 </MainIntroDescription>
               </MainIntroContent>
             </HiddenIntroLayout>
@@ -292,16 +288,14 @@ export default function Home(): JSX.Element {
       <MainIntroRow>
         <MainIntroLayout imageUrl="main3.png" showHiddenContent={showHiddenContent3} onMouseEnter={toggleHiddenContent3} onMouseLeave={toggleHiddenContent3}>
           {showHiddenContent3 ? <MainIntroContent>
-            <MainIntroTitle>Solver가 바꿀 커뮤니티</MainIntroTitle>
-            <MainIntroDescription>
-              편리한 커뮤니티 서비스를 경험하세요.
-            </MainIntroDescription>
+            <MainIntroTitle>Solver가 제안하는 <br/>새로운 공부 패러다임</MainIntroTitle>
+           
           </MainIntroContent> :
             <HiddenIntroLayout>
               <MainIntroContent>
-                <MainIntroTitle>Solver가 바꿀 커뮤니티</MainIntroTitle>
+                <MainIntroTitle>Solver가 제안하는 <br/>새로운 공부 패러다임</MainIntroTitle>
                 <MainIntroDescription>
-                  편리한 커뮤니티 서비스를 경험하세요.
+                함께하는 성장, 재밌는 공부, 해결의 즐거움. Solver와 같이 시작하면 성취할 수 있습니다. 실시간 Q&A 커뮤니티로 타인이 우리가 되는, 지식을 나눠 보세요.
                 </MainIntroDescription>
               </MainIntroContent>
             </HiddenIntroLayout>
@@ -310,16 +304,14 @@ export default function Home(): JSX.Element {
 
         <MainIntroLayout imageUrl="main1.png" showHiddenContent={showHiddenContent4} onMouseEnter={toggleHiddenContent4} onMouseLeave={toggleHiddenContent4}>
           {showHiddenContent4 ? <MainIntroContent>
-            <MainIntroTitle>커뮤니티하면 첫번째로,<br/> 생각나는 서비스 Solver</MainIntroTitle>
-            <MainIntroDescription>
-              편리한 커뮤니티 서비스를 경험하세요.
-            </MainIntroDescription>
+            <MainIntroTitle>가장 가까운 곳에서 접하는<br/> 가장 최신의 교육 기회</MainIntroTitle>
+            
           </MainIntroContent> :
             <HiddenIntroLayout>
               <MainIntroContent>
-                <MainIntroTitle>커뮤니티하면 첫번째로,<br/> 생각나는 서비스 Solver</MainIntroTitle>
+                <MainIntroTitle>가장 가까운 곳에서 접하는 <br/>가장 최신의 교육 기회</MainIntroTitle>
                 <MainIntroDescription>
-                  편리한 커뮤니티 서비스를 경험하세요.
+                거리로 인해 교육 기회를 잃는 사람이 생기지 않도록, 더 많은 사람들이 더 큰 성장을 이루어 낼 수 있도록 Solver는 가까이 존재합니다. 
                 </MainIntroDescription>
               </MainIntroContent>
             </HiddenIntroLayout>
