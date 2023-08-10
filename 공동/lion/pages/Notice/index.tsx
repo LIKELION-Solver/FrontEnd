@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import styled from '@emotion/styled';
 import Post from './post';
-
+import { useRouter } from 'next/router';
+import Link from 'next/link';
 const Container = styled.div`
   max-width: 1000px;
   margin: 0 auto;
@@ -25,6 +26,9 @@ const SearchBar = styled.input`
 const Table = styled.table`
   width: 100%;
   border-collapse: collapse;
+  tr{
+    cursor:pointer;
+  }
   th, td {
     padding: 15px;
     border-bottom: 1px solid #eee;
@@ -46,7 +50,7 @@ font-family: 'Pretendard-Regular';
 const Home: React.FC = () => {
   const [posts, setPosts] = useState<Post[]>([]);
   const [searchTerm, setSearchTerm] = useState<string>('');
-
+  const router = useRouter();
   useEffect(() => {
     async function fetchPosts() {
       try {
@@ -64,8 +68,10 @@ const Home: React.FC = () => {
   const filteredPosts = posts.filter((post) =>
     post.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
-  
-  
+
+  const handlePostClick = (postId: number): void => {
+    void router.push(`/Notice/NoticeItem/${postId}`);
+  };
   return (
     <Container>
       <Title>공지사항</Title>
@@ -87,12 +93,15 @@ const Home: React.FC = () => {
         </thead>
         <tbody>
           {filteredPosts.map((post) => (
-            <tr key={post.id}>
+
+            <tr key={post.id} onClick={() => handlePostClick(post.id)} >
               <td>{post.id}</td>
               <td>{post.title}</td>
               <td>{post.userId}</td>
               <td>{new Date(post.date).toLocaleDateString()}</td>
             </tr>
+
+
           ))}
         </tbody>
       </Table>
