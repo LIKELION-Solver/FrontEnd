@@ -123,7 +123,7 @@
 
 // export default Login;
 
-// 코드캠프 백엔드 연결
+// 코드캠프 백엔드 현재 작동완료
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRecoilState } from "recoil";
@@ -143,7 +143,7 @@ const Login = (): JSX.Element => {
   const [isLogin, setIsLogin] = useRecoilState(isLoginState);
   const router = useRouter();
 
-  const [isInputFilled, setIsInputFilled] = useState(false); // 추가된 부분
+  const [isInputFilled, setIsInputFilled] = useState(false); // 입력값이 있는지 여부를 감지할 상태 추가
 
   const [formData, setFormData] = useState({
     username: "",
@@ -250,7 +250,8 @@ const Login = (): JSX.Element => {
     event: React.FormEvent<HTMLFormElement>
   ): Promise<void> => {
     event.preventDefault();
-    if (!isInputFilled) {
+    if (isInputFilled) {
+      // isInputFilled 값이 true인 경우에만 로그인 시도
       loginUser();
     }
   };
@@ -279,7 +280,7 @@ const Login = (): JSX.Element => {
             <ButtonWithMarginTop
               fullWidth
               type="submit"
-              disabled={!isInputFilled}
+              disabled={!isInputFilled} // isInputFilled 값에 따라 버튼 활성/비활성 설정
             >
               로그인
             </ButtonWithMarginTop>
