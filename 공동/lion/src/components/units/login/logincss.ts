@@ -10,7 +10,10 @@ import Button from "../../../components/commons/button/loginbutton";
 export const LoginWrapper = styled.div`
   position: fixed; // 어떤 페이지든 상관 없게 위치를 고정
   z-index: 1; // 가장 우선순위를 높게 만듬
+  max-height: 50%;
+  max-width: 400px;
   margin-top: 10%;
+  margin-left: 80%;
   margin-right: -10.8%;
 `;
 
@@ -57,6 +60,7 @@ export const LoginFormWrapper = styled.div`
 
 export const ButtonWithMarginTop = styled(Button)`
   margin-top: 1rem;
+  background-color: ${(props) => (props.disabled ? "#f2f2f2" : "#5eb6f6")};
 `;
 
 export const StyledInput = styled.input`

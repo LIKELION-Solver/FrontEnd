@@ -20,6 +20,11 @@ const StudyRoom = (): JSX.Element => {
   const [page, setPage] = useState<number>(1);
   const itemsPerPage = 100;
 
+  const createStudyGroup = () => {
+    // 스터디 그룹 만들기 로직을 구현합니다.
+    alert("스터디 그룹 만들기");
+  };
+
   const fetchQuestions = async () => {
     try {
       const response = await axios.get(
@@ -30,6 +35,7 @@ const StudyRoom = (): JSX.Element => {
         id: question.id,
         title: question.title,
         body: question.body,
+        tags: question.tags, // 이 부분을 수정해야 합니다.
       }));
       setRenderQuestions((prevQuestions) => [
         ...prevQuestions,
@@ -129,56 +135,54 @@ const StudyRoom = (): JSX.Element => {
             </TagButton>
           ))}
         </FilterTags>
-
-        <div style={{ display: "flex", alignItems: "center" }}>
-          <SearchInput
-            type="text"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search questions..."
-          />
-        </div>
-
         <div>
-          {searchQuery ? (
-            <InfiniteScroll
-              pageStart={0}
-              loadMore={serQuestions}
-              hasMore={serMoreQuestions}
-              useWindow={false}
-            >
-              {searchedQuestions.map((question) => (
-                <QuestionCard key={question.id}>
-                  <h3>{question.title}</h3>
-                  <p>{question.body}</p>
-                  <p>Author: {question.userId}</p>
-                  <button onClick={() => joinStudyGroup(question.tags[0])}>
-                    Join Study Group
-                  </button>
-                </QuestionCard>
-              ))}
-            </InfiniteScroll>
-          ) : (
-            <InfiniteScroll
-              pageStart={0}
-              loadMore={loadMoreQuestions}
-              hasMore={
-                hasMoreQuestions && renderQuestions.length < itemsPerPage * page
-              }
-              useWindow={false}
-            >
-              {renderQuestions.map((question) => (
-                <QuestionCard key={question.id}>
-                  <h3>{question.title}</h3>
-                  <p>{question.body}</p>
-                  <p>Author: {question.userId}</p>
-                  <button onClick={() => joinStudyGroup(question.tags[0])}>
-                    Join Study Group
-                  </button>
-                </QuestionCard>
-              ))}
-            </InfiniteScroll>
-          )}
+          <div style={{ display: "flex", justifyContent: "flex-end" }}>
+            {/* 전체 스터디 그룹 만들기 버튼 */}
+            <button onClick={createStudyGroup}>스터디 그룹 만들기</button>
+          </div>
+
+          <div>
+            {searchQuery ? (
+              <InfiniteScroll
+                pageStart={0}
+                loadMore={serQuestions}
+                hasMore={serMoreQuestions}
+                useWindow={false}
+              >
+                {searchedQuestions.map((question) => (
+                  <QuestionCard key={question.id}>
+                    <h3>{question.title}</h3>
+                    <p>{question.body}</p>
+                    <p>Author: {question.userId}</p>
+                    <button onClick={() => joinStudyGroup(question.tags[0])}>
+                      Join Study Group
+                    </button>
+                  </QuestionCard>
+                ))}
+              </InfiniteScroll>
+            ) : (
+              <InfiniteScroll
+                pageStart={0}
+                loadMore={loadMoreQuestions}
+                hasMore={
+                  hasMoreQuestions &&
+                  renderQuestions.length < itemsPerPage * page
+                }
+                useWindow={false}
+              >
+                {renderQuestions.map((question) => (
+                  <QuestionCard key={question.id}>
+                    <h3>{question.title}</h3>
+                    <p>{question.body}</p>
+                    <p>Author: {question.userId}</p>
+                    <button onClick={() => joinStudyGroup(question.tags[0])}>
+                      Join Study Group
+                    </button>
+                  </QuestionCard>
+                ))}
+              </InfiniteScroll>
+            )}
+          </div>
         </div>
       </StudyWrapper>
     </PageContainer>
