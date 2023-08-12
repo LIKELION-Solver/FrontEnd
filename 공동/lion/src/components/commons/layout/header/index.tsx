@@ -99,7 +99,7 @@ const LayoutHeader = (): JSX.Element => {
         </DropdownItem>
         {/* 질문 작성 링크 */}
         <DropdownItem>
-          <StyledLink onClick={() => onClickHeader("/Write")}>
+          <StyledLink onClick={() => onClickHeader("/QnaWrite")}>
             질문 작성
           </StyledLink>
         </DropdownItem>

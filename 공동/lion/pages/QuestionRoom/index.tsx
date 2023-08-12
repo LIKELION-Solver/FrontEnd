@@ -1,4 +1,3 @@
-// 업데이트
 import React, { useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroller";
 import axios from "axios";
@@ -10,9 +9,15 @@ import {
   TagButton,
   WriteQuestionButton,
   PageContainer,
+  TextContainer,
+  QuestionCardWrapper,
+  ImageContainer,
+
 } from "./QuestionRoomCSS";
 import { useRouter } from "next/router";
 import { Question } from "./exampleData";
+import Link from "next/link";
+
 
 const QuestionRoom = (): JSX.Element => {
   const [selectedTag, setSelectedTag] = useState<string | null>(null);
@@ -20,17 +25,19 @@ const QuestionRoom = (): JSX.Element => {
   const [renderQuestions, setRenderQuestions] = useState<Question[]>([]);
   const [page, setPage] = useState<number>(1);
   const itemsPerPage = 100;
-
+  //"https://jsonplaceholder.typicode.com/photos"
+  //https://jsonplaceholder.typicode.com/posts?_page=${page}&_limit=${itemsPerPage}
   const fetchQuestions = async () => {
     try {
       const response = await axios.get(
-        `https://jsonplaceholder.typicode.com/posts?_page=${page}&_limit=${itemsPerPage}`
+        "https://jsonplaceholder.typicode.com/photos"
       );
       const newQuestions = response.data.map((question: Question) => ({
         userId: question.userId,
         id: question.id,
         title: question.title,
         body: question.body,
+        thumbnailUrl: question.thumbnailUrl
       }));
       setRenderQuestions((prevQuestions) => [
         ...prevQuestions,
@@ -44,6 +51,7 @@ const QuestionRoom = (): JSX.Element => {
   useEffect(() => {
     fetchQuestions();
   }, [page]);
+
 
   const uniqueTags = Array.from(
     new Set(renderQuestions.flatMap((q) => q.tags))
@@ -82,8 +90,8 @@ const QuestionRoom = (): JSX.Element => {
 
   const serfilQuestions = searchQuery
     ? renderQuestions.filter((q) =>
-        q.title.toLowerCase().includes(searchQuery.toLowerCase())
-      )
+      q.title.toLowerCase().includes(searchQuery.toLowerCase())
+    )
     : renderQuestions;
 
   const searchedQuestions = serfilQuestions.filter((q) =>
@@ -109,7 +117,9 @@ const QuestionRoom = (): JSX.Element => {
 
   const hasMoreQuestions = renderQuestions.length < filteredQuestions.length;
   const serMoreQuestions = renderQuestions.length < searchedQuestions.length;
-
+  const handlePostClick = (postId: number): void => {
+    void router.push(`/QuestionRoom/QuestionItem/${postId}`);
+  };
   return (
     <PageContainer>
       <QuestionRoomWrapper>
@@ -151,11 +161,19 @@ const QuestionRoom = (): JSX.Element => {
               useWindow={false}
             >
               {renderQuestions.map((question) => (
-                <QuestionCard key={question.id}>
-                  <h3>{question.title}</h3>
-                  <p>{question.body}</p>
-                  <p>사용자: {question.userId}</p>
+
+                <QuestionCard key={question.id} onClick={() => handlePostClick(question.id)}>
+                  <TextContainer>
+                    <h3>{question.title}</h3>
+                    <p>{question.body}</p>
+                    <p>Author: {question.id}</p>
+                  </TextContainer>
+                  <ImageContainer>
+                    <img src={question.thumbnailUrl} alt="Thumbnail" />
+                  </ImageContainer>
                 </QuestionCard>
+
+
               ))}
             </InfiniteScroll>
           ) : (
@@ -168,11 +186,19 @@ const QuestionRoom = (): JSX.Element => {
               useWindow={false}
             >
               {renderQuestions.map((question) => (
-                <QuestionCard key={question.id}>
-                  <h3>{question.title}</h3>
-                  <p>{question.body}</p>
-                  <p>Author: {question.userId}</p>
+
+                <QuestionCard key={question.id} onClick={() => handlePostClick(question.id)}>
+                  <TextContainer>
+                    <h3>{question.title}</h3>
+                    <p>{question.body}</p>
+                    <p>Author: {question.id}</p>
+                  </TextContainer>
+                  <ImageContainer>
+                    <img src={question.thumbnailUrl} alt="Thumbnail" />
+                  </ImageContainer>
                 </QuestionCard>
+
+
               ))}
             </InfiniteScroll>
           )}
