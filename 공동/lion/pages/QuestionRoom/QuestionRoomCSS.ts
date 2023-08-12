@@ -62,4 +62,19 @@ export const QuestionCard = styled.div`
   border-radius: 10px;
   padding: 20px;
   margin-bottom: 20px;
+  cursor:pointer;
+  display:flex;
+  align-items: center;
+`;
+export const QuestionCardWrapper = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+export const TextContainer = styled.div`
+  flex: 1;
+`;
+
+export const ImageContainer = styled.div`
+  margin-left: 20px;
 `;
