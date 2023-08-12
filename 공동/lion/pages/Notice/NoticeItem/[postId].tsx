@@ -55,7 +55,10 @@ const NoticeItem: React.FC = () => {
   const [post, setPost] = useState<Post | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-
+  //실제 서버
+  //http://localhost:8080/api/v1/posts/1
+  //무료 api서버
+//https://jsonplaceholder.typicode.com/posts/${postId}
   useEffect(() => {
     async function fetchPost() {
       try {
