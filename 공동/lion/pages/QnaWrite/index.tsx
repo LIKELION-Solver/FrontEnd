@@ -232,6 +232,7 @@ const WritePost = () => {
   const handleSizeChange = (e) => {
     setFontSize(e.target.value);
   };
+  //파일 불러오기
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {

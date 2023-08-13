@@ -4,6 +4,7 @@ import styled from '@emotion/styled';
 import Post from './post';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
+
 const Container = styled.div`
   max-width: 1000px;
   margin: 0 auto;
@@ -26,10 +27,11 @@ const SearchBar = styled.input`
 const Table = styled.table`
   width: 100%;
   border-collapse: collapse;
-  tr{
-    cursor:pointer;
+  tr {
+    cursor: pointer;
   }
-  th, td {
+  th,
+  td {
     padding: 15px;
     border-bottom: 1px solid #eee;
     text-align: left;
@@ -39,18 +41,38 @@ const Table = styled.table`
     background-color: #f2f2f2;
   }
 `;
+
 const Total = styled.div`
-margin: 0;
-padding: 0;
-list-style: none;
-box-sizing: border-box;
-font-family: 'Pretendard-Regular';
-`
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  box-sizing: border-box;
+  font-family: 'Pretendard-Regular';
+`;
+
+const Pagination = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+`;
+
+const PageButton = styled.button`
+  padding: 5px 10px;
+  margin: 0 5px;
+  background-color: ${(props) => (props.active ? '#007bff' : 'transparent')};
+  color: ${(props) => (props.active ? 'white' : '#007bff')};
+  border: 1px solid #007bff;
+  cursor: pointer;
+`;
+
+const ITEMS_PER_PAGE = 10; // 페이지 당 게시물 수
 
 const Home: React.FC = () => {
   const [posts, setPosts] = useState<Post[]>([]);
   const [searchTerm, setSearchTerm] = useState<string>('');
+  const [currentPage, setCurrentPage] = useState<number>(1);
   const router = useRouter();
+
   useEffect(() => {
     async function fetchPosts() {
       try {
@@ -72,6 +94,17 @@ const Home: React.FC = () => {
   const handlePostClick = (postId: number): void => {
     void router.push(`/Notice/NoticeItem/${postId}`);
   };
+
+  // 현재 페이지에 해당하는 게시물 배열을 반환합니다.
+  const getCurrentPageItems = () => {
+    const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+    const endIndex = startIndex + ITEMS_PER_PAGE;
+    return filteredPosts.slice(startIndex, endIndex);
+  };
+
+  // 총 페이지 수를 계산합니다.
+  const totalPages = Math.ceil(filteredPosts.length / ITEMS_PER_PAGE);
+
   return (
     <Container>
       <Title>공지사항</Title>
@@ -79,7 +112,10 @@ const Home: React.FC = () => {
         type="text"
         placeholder="제목 검색"
         value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
+        onChange={(e) => {
+          setSearchTerm(e.target.value);
+          setCurrentPage(1); // 검색어가 변경되면 첫 페이지로 리셋
+        }}
       />
       <Total>총 {filteredPosts.length}개</Total>
       <Table>
@@ -92,19 +128,27 @@ const Home: React.FC = () => {
           </tr>
         </thead>
         <tbody>
-          {filteredPosts.map((post) => (
-
-            <tr key={post.id} onClick={() => handlePostClick(post.id)} >
+          {getCurrentPageItems().map((post) => (
+            <tr key={post.id} onClick={() => handlePostClick(post.id)}>
               <td>{post.id}</td>
               <td>{post.title}</td>
               <td>{post.userId}</td>
               <td>{new Date(post.date).toLocaleDateString()}</td>
             </tr>
-
-
           ))}
         </tbody>
       </Table>
+      <Pagination>
+        {Array.from({ length: totalPages }, (_, index) => (
+          <PageButton
+            key={index}
+            active={index + 1 === currentPage}
+            onClick={() => setCurrentPage(index + 1)}
+          >
+            {index + 1}
+          </PageButton>
+        ))}
+      </Pagination>
     </Container>
   );
 };
