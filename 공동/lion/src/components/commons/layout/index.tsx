@@ -31,17 +31,8 @@ const ContentWrapper = styled.div`
   padding-bottom: 50px; /* Set to the height of the footer */
   overflow-y: auto; /* Enable vertical scrolling for the content */
 
-  /* Adjust for header navigation bar */
-  @media (min-height: 320px) {
-    position: relative;
-    top: 0;
-    left: 0;
-    min-height: calc(
-      100vh - 113px - 50px
-    ); /* Account for header and footer heights */
-    padding-top: 113px; /* Set to the same height as the header */
-    padding-bottom: 50px; /* Set to the height of the footer */
-    overflow-y: auto;
+  @media (max-width: 768px) {
+    /* Adjust styles for smaller screens */
   }
 `;
 

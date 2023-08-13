@@ -3,7 +3,7 @@ import styled from "@emotion/styled";
 const FooterWrapper = styled.footer`
   background-color: #5eb6f6;
   color: #fff;
-  height: 50px; /* Adjust the height of the footer */
+  height: 100%; /* Adjust the height of the footer */
   display: flex;
   align-items: center;
 `;
@@ -31,6 +31,30 @@ const FooterLink = styled.a`
 
   &:hover {
     color: #ccc;
+  }
+
+  @media (min-width: 370px) and (max-width: 450px) {
+    color: #fff;
+    text-decoration: none;
+    margin-right: 20px;
+    font-size: 8px; /* Adjust the font size for footer links */
+    transition: color 0.2s ease;
+
+    &:hover {
+      color: #ccc;
+    }
+  }
+
+  @media (max-width: 369px) {
+    color: #fff;
+    text-decoration: none;
+    margin-right: 20px;
+    font-size: 3px; /* Adjust the font size for footer links */
+    transition: color 0.2s ease;
+
+    &:hover {
+      color: #ccc;
+    }
   }
 `;
 
