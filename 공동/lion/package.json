@@ -35,6 +35,7 @@
     "react-html-parser": "^2.0.2",
     "react-icons": "^4.10.1",
     "react-infinite-scroller": "^1.2.6",
+    "react-js-pagination": "^3.0.3",
     "react-kakao-login": "^2.1.1",
     "react-quill": "^2.0.0",
     "react-router-dom": "^6.14.2",

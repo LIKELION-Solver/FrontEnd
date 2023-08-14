@@ -17,7 +17,7 @@ export const QuestionRoomWrapper = styled.div`
     100vh - 90px
   ); /* Account for header (60px) + footer (30px) */
 
-  overflow-y: auto; /* Add scrolling if content overflows */
+  //overflow-y: auto; /* Add scrolling if content overflows */
 `;
 
 export const WriteQuestionButton = styled.button`
@@ -78,3 +78,45 @@ export const TextContainer = styled.div`
 export const ImageContainer = styled.div`
   margin-left: 20px;
 `;
+export const Pagination = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+`;
+
+export const PageButton = styled.button`
+  padding: 5px 10px;
+  margin: 0 5px;
+  background-color: ${(props) => (props.active ? '#007bff' : 'transparent')};
+  color: ${(props) => (props.active ? 'white' : '#007bff')};
+  border: 1px solid #007bff;
+  cursor: pointer;
+`;
+export const BigContain = styled.div`
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: 'Arial', sans-serif;
+`;
+export const PaginationBox = styled.div`
+.pagination { display: flex; justify-content: center; margin-top: 15px;}
+ul { list-style: none; padding: 0; }
+ul.pagination li {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  border: 1px solid #e2e2e2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1rem; 
+  margin-top:30px;
+}
+ul.pagination li:first-child{ border-radius: 5px 0 0 5px; }
+ul.pagination li:last-child{ border-radius: 0 5px 5px 0; }
+ul.pagination li a { text-decoration: none; color: #337ab7; font-size: 1rem; }
+ul.pagination li.active a { color: white; }
+ul.pagination li.active { background-color: #337ab7; }
+ul.pagination li a:hover,
+ul.pagination li a.active { color: blue; }
+`

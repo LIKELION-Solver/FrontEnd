@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import InfiniteScroll from "react-infinite-scroller";
 import axios from "axios";
 import {
   FilterTags,
@@ -12,21 +11,27 @@ import {
   TextContainer,
   QuestionCardWrapper,
   ImageContainer,
-
+  PageButton,
+  BigContain,
+  PaginationBox,
 } from "./QuestionRoomCSS";
 import { useRouter } from "next/router";
 import { Question } from "./exampleData";
 import Link from "next/link";
-
-
+import Pagination from 'react-js-pagination'
 const QuestionRoom = (): JSX.Element => {
   const [selectedTag, setSelectedTag] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState<string>("");
-  const [renderQuestions, setRenderQuestions] = useState<Question[]>([]);
+  const [allQuestions, setAllQuestions] = useState<Question[]>([]); // 모든 질문 데이터 저장
+  const [renderQuestions, setRenderQuestions] = useState<Question[]>([]); // 필터링된 질문 데이터 저장
   const [page, setPage] = useState<number>(1);
-  const itemsPerPage = 100;
-  //"https://jsonplaceholder.typicode.com/photos"
-  //https://jsonplaceholder.typicode.com/posts?_page=${page}&_limit=${itemsPerPage}
+
+  const itemsPerPage = 10; // 한 페이지에 보여줄 항목수
+  const [currentPage, setCurrentPage] = useState<number>(1); // 현재 페이지 번호
+
+  const handlePageChange = (pageNumber: number) => {
+    setCurrentPage(pageNumber);
+  };
   const fetchQuestions = async () => {
     try {
       const response = await axios.get(
@@ -37,12 +42,9 @@ const QuestionRoom = (): JSX.Element => {
         id: question.id,
         title: question.title,
         body: question.body,
-        thumbnailUrl: question.thumbnailUrl
+        thumbnailUrl: question.thumbnailUrl,
       }));
-      setRenderQuestions((prevQuestions) => [
-        ...prevQuestions,
-        ...newQuestions,
-      ]);
+      setAllQuestions((prevQuestions) => [...prevQuestions, ...newQuestions]);
     } catch (error) {
       console.error("Error fetching questions:", error);
     }
@@ -52,11 +54,8 @@ const QuestionRoom = (): JSX.Element => {
     fetchQuestions();
   }, [page]);
 
-
-  const uniqueTags = Array.from(
-    new Set(renderQuestions.flatMap((q) => q.tags))
-  );
-
+  const uniqueTags = Array.from(new Set(allQuestions.flatMap((q) => q.tags)));
+  const totalPages = Math.ceil(renderQuestions.length / itemsPerPage);
   const router = useRouter();
   const onClickHeader = (path: string): void => {
     void router.push(path);
@@ -64,151 +63,105 @@ const QuestionRoom = (): JSX.Element => {
 
   const handleTagClick = (tag: string) => {
     setSelectedTag((prevTag) => (prevTag === tag ? null : tag));
-    setRenderQuestions([]);
   };
 
-  const filteredQuestions = selectedTag
-    ? renderQuestions.filter((q) => q.tags.includes(selectedTag))
-    : renderQuestions;
+  useEffect(() => {
+    // 검색 쿼리와 선택된 태그에 따라 필터링하여 렌더할 질문 데이터 업데이트
+    let filtered = allQuestions;
 
-  const loadMoreQuestions = () => {
-    const nextPage = renderQuestions.length / itemsPerPage + 1;
-    const startIndex = (nextPage - 1) * itemsPerPage;
-    const endIndex = Math.min(
-      startIndex + itemsPerPage,
-      filteredQuestions.length
-    );
-    const newQuestions = filteredQuestions.slice(startIndex, endIndex);
+    if (selectedTag) {
+      filtered = filtered.filter((q) => q.tags.includes(selectedTag));
+    }
 
-    setTimeout(() => {
-      setRenderQuestions((prevQuestions) => [
-        ...prevQuestions,
-        ...newQuestions,
-      ]);
-    }, 500);
-  };
+    if (searchQuery) {
+      filtered = filtered.filter((q) =>
+        q.title.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    }
 
-  const serfilQuestions = searchQuery
-    ? renderQuestions.filter((q) =>
-      q.title.toLowerCase().includes(searchQuery.toLowerCase())
-    )
-    : renderQuestions;
+    setRenderQuestions(filtered);
+  }, [searchQuery, selectedTag, allQuestions]);
 
-  const searchedQuestions = serfilQuestions.filter((q) =>
-    q.title.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  
+  // 현재 페이지에 해당하는 데이터 계산
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const currentRenderQuestions = renderQuestions.slice(startIndex, endIndex);
 
-  const serQuestions = () => {
-    const nextPage = renderQuestions.length / itemsPerPage + 1;
-    const startIndex = (nextPage - 1) * itemsPerPage;
-    const endIndex = Math.min(
-      startIndex + itemsPerPage,
-      searchedQuestions.length
-    );
-    const newQuestions = searchedQuestions.slice(startIndex, endIndex);
-
-    setTimeout(() => {
-      setRenderQuestions((prevQuestions) => [
-        ...prevQuestions,
-        ...newQuestions,
-      ]);
-    }, 500);
-  };
-
-  const hasMoreQuestions = renderQuestions.length < filteredQuestions.length;
-  const serMoreQuestions = renderQuestions.length < searchedQuestions.length;
   const handlePostClick = (postId: number): void => {
     void router.push(`/QuestionRoom/QuestionItem/${postId}`);
   };
+
   return (
-    <PageContainer>
-      <QuestionRoomWrapper>
-        {/* FilterTags, SearchInput, WriteQuestionButton */}
-        <FilterTags>
-          {uniqueTags.map((tag) => (
-            <TagButton
-              key={tag}
-              active={selectedTag === tag}
-              onClick={() => handleTagClick(tag)}
-            >
-              #{tag}
-            </TagButton>
-          ))}
-        </FilterTags>
-
-        <div style={{ display: "flex", alignItems: "center" }}>
-          <SearchInput
-            type="text"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search questions..."
-          />
-          <WriteQuestionButton
-            onClick={() => {
-              onClickHeader("/QnaWrite");
-            }}
+    <div>
+      {/* FilterTags, SearchInput, WriteQuestionButton */}
+      <FilterTags>
+        {uniqueTags.map((tag) => (
+          <TagButton
+            key={tag}
+            active={selectedTag === tag}
+            onClick={() => handleTagClick(tag)}
           >
-            Write a Question
-          </WriteQuestionButton>
-        </div>
+            #{tag}
+          </TagButton>
+        ))}
+      </FilterTags>
 
-        <div>
-          {searchQuery ? (
-            <InfiniteScroll
-              pageStart={0}
-              loadMore={serQuestions}
-              hasMore={serMoreQuestions}
-              useWindow={false}
-            >
-              {renderQuestions.map((question) => (
+      <div style={{ display: "flex", alignItems: "center" }}>
+        <SearchInput
+          type="text"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          placeholder="Search questions..."
+        />
+        <WriteQuestionButton
+          onClick={() => {
+            onClickHeader("/QnaWrite");
+          }}
+        >
+          Write a Question
+        </WriteQuestionButton>
+      </div>
 
-                <QuestionCard key={question.id} onClick={() => handlePostClick(question.id)}>
-                  <TextContainer>
-                    <h3>{question.title}</h3>
-                    <p>{question.body}</p>
-                    <p>Author: {question.id}</p>
-                  </TextContainer>
-                  <ImageContainer>
-                    <img src={question.thumbnailUrl} alt="Thumbnail" />
-                  </ImageContainer>
-                </QuestionCard>
+      <div>
+        {currentRenderQuestions.map((question) => (
+          <QuestionCard
+            key={question.id}
+            onClick={() => handlePostClick(question.id)}
+          >
+            <TextContainer>
+              <h3>{question.title}</h3>
+              <p>{question.body}</p>
+              <p>Author: {question.id}</p>
+            </TextContainer>
+            <ImageContainer>
+              <img
+                src={question.thumbnailUrl}
+                alt="Thumbnail"
+                width="100" // 이미지 크기 조절
+                height="100"
+                loading="lazy" // 지연 로딩 설정
+              />
+            </ImageContainer>
+          </QuestionCard>
+        ))}
+      </div>
 
-
-              ))}
-            </InfiniteScroll>
-          ) : (
-            <InfiniteScroll
-              pageStart={0}
-              loadMore={loadMoreQuestions}
-              hasMore={
-                hasMoreQuestions && renderQuestions.length < itemsPerPage * page
-              }
-              useWindow={false}
-            >
-              {renderQuestions.map((question) => (
-
-                <QuestionCard key={question.id} onClick={() => handlePostClick(question.id)}>
-                  <TextContainer>
-                    <h3>{question.title}</h3>
-                    <p>{question.body}</p>
-                    <p>Author: {question.id}</p>
-                  </TextContainer>
-                  <ImageContainer>
-                    <img src={question.thumbnailUrl} alt="Thumbnail" />
-                  </ImageContainer>
-                </QuestionCard>
-
-
-              ))}
-            </InfiniteScroll>
-          )}
-        </div>
-
-        {/* {hasMoreQuestions && (
-          <button onClick={loadMoreQuestions}>Load More</button>
-        )} */}
-      </QuestionRoomWrapper>
-    </PageContainer>
+      <PaginationBox>
+        <Pagination
+        //현재 보고 있는 페이지
+          activePage={currentPage}
+          //한 페이지에 출력할 아이템 수
+          itemsCountPerPage={10}
+          //총 아이템 수
+          totalItemsCount={renderQuestions.length}
+          //표시할 페이지 수
+          pageRangeDisplayed={10}
+          //함수
+          onChange={handlePageChange}>
+        </Pagination>
+      </PaginationBox>
+    </div>
   );
 };
 
