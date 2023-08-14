@@ -82,9 +82,7 @@ const QuestionRoom = (): JSX.Element => {
     setRenderQuestions(filtered);
   }, [searchQuery, selectedTag, allQuestions]);
 
-  useEffect(()=>{
-
-  })
+  
   // 현재 페이지에 해당하는 데이터 계산
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
@@ -151,10 +149,15 @@ const QuestionRoom = (): JSX.Element => {
 
       <PaginationBox>
         <Pagination
-          activePage={1}
-          itemsCountPerPage={5}
-          totalItemsCount={300}
-          pageRangeDisplayed={5}
+        //현재 보고 있는 페이지
+          activePage={currentPage}
+          //한 페이지에 출력할 아이템 수
+          itemsCountPerPage={10}
+          //총 아이템 수
+          totalItemsCount={renderQuestions.length}
+          //표시할 페이지 수
+          pageRangeDisplayed={10}
+          //함수
           onChange={handlePageChange}>
         </Pagination>
       </PaginationBox>

@@ -110,6 +110,7 @@ ul.pagination li {
   justify-content: center;
   align-items: center;
   font-size: 1rem; 
+  margin-top:30px;
 }
 ul.pagination li:first-child{ border-radius: 5px 0 0 5px; }
 ul.pagination li:last-child{ border-radius: 0 5px 5px 0; }
