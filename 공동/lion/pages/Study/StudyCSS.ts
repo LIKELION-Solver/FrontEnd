@@ -1,7 +1,8 @@
+// StudyCSS.tsx
 import styled from "@emotion/styled";
 
 export const PageContainer = styled.div`
-  height: calc(100vh - 90px); /* Account for header (60px) + footer (30px) */
+  height: calc(100vh - 90px);
   overflow: hidden;
 `;
 
@@ -32,13 +33,13 @@ export const TagButton = styled.button<{ active: boolean }>`
   cursor: pointer;
 `;
 
-export const SearchInput = styled.input`
-  flex: 1;
-  padding: 5px;
-  border: 1px solid #ccc;
+export const GroupButton = styled.button`
+  background-color: #5eb6f6;
+  color: #fff;
+  border: none;
   border-radius: 5px;
-  margin-bottom: 10px;
-  margin-right: 100px;
+  padding: 5px 10px;
+  cursor: pointer;
 `;
 
 export const QuestionCard = styled.div`
@@ -48,3 +49,14 @@ export const QuestionCard = styled.div`
   padding: 20px;
   margin-bottom: 20px;
 `;
+
+// export const LoadMoreButton = styled.button`
+//   background-color: #007bff;
+//   color: #fff;
+//   border: none;
+//   border-radius: 5px;
+//   padding: 5px 10px;
+//   margin-top: 10px;
+//   cursor: pointer;
+//   align-self: center;
+// `;
