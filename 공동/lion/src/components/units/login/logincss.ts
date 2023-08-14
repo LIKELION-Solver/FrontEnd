@@ -2,16 +2,25 @@ import styled from "@emotion/styled";
 import palette from "../../../../styles/palette";
 import Button from "../../../components/commons/button/loginbutton";
 
-// export const LoginPosition = styled.div`
-//   display: "flex";
-//   justify-content: "flex-end";
-// `;
-
 export const LoginWrapper = styled.div`
   position: fixed; // 어떤 페이지든 상관 없게 위치를 고정
   z-index: 1; // 가장 우선순위를 높게 만듬
-  margin-top: 10%;
-  margin-right: -10.8%;
+  width: 100%;
+  max-width: 400px;
+
+  @media (max-width: 768px) {
+    position: fixed; // 어떤 페이지든 상관 없게 위치를 고정
+    z-index: 1; // 가장 우선순위를 높게 만듬
+    /* width: 100%; */
+    max-width: 150px;
+  }
+
+  @media (min-width: 769px) and (max-width: 1024px) {
+    position: fixed; // 어떤 페이지든 상관 없게 위치를 고정
+    z-index: 1; // 가장 우선순위를 높게 만듬
+    /* width: 100%; */
+    max-width: 150px;
+  }
 `;
 
 export const LoginFormWrapper = styled.div`
@@ -19,44 +28,69 @@ export const LoginFormWrapper = styled.div`
   padding: 2rem;
   border-radius: 8px;
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
-  &::before {
+  /* &::before {
     content: "";
     position: absolute;
     bottom: 100%;
-    left: 31%;
+    left: 27%;
     margin-left: -10px;
     border-width: 10px;
     border-style: solid;
     border-color: transparent transparent #ffffff transparent;
-  }
+  } */
 
   @media (max-width: 768px) {
-    /* 작은 화면에 대한 위치 조정 */
-    width: calc(100% - 40px);
-    left: 10px;
-    top: calc(100% + 1rem);
+    width: calc(100% - 10px);
     transform: none;
+    margin-top: 80%;
+    margin-left: -55%;
+    &::before {
+      content: "";
+      position: absolute;
+      bottom: 71%;
+      left: 5%;
+      border-width: 10px;
+      border-style: solid;
+      border-color: transparent transparent #ffffff transparent;
+    }
   }
 
   @media (min-width: 769px) and (max-width: 1024px) {
-    /* 중간 크기 화면에 대한 위치 조정 */
-    width: calc(100% - 40px);
-    left: 10px;
-    top: calc(100% + 1rem);
+    width: calc(100% - 20px);
     transform: none;
+    margin-top: 80%;
+    margin-left: -55%;
+    &::before {
+      content: "";
+      position: absolute;
+      bottom: 71%;
+      left: 5%;
+      border-width: 10px;
+      border-style: solid;
+      border-color: transparent transparent #ffffff transparent;
+    }
   }
 
   @media (min-width: 1025px) {
-    /* 큰 화면에 대한 위치 조정 */
     width: calc(100% - 250px);
-    left: 50px;
-    top: 100px;
     transform: none;
+    margin-top: 30%;
+    margin-left: 40%;
+    &::before {
+      content: "";
+      position: absolute;
+      bottom: 71%;
+      left: 65%;
+      border-width: 10px;
+      border-style: solid;
+      border-color: transparent transparent #ffffff transparent;
+    }
   }
 `;
 
 export const ButtonWithMarginTop = styled(Button)`
   margin-top: 1rem;
+  background-color: ${(props) => (props.disabled ? "#f2f2f2" : "#5eb6f6")};
 `;
 
 export const StyledInput = styled.input`
