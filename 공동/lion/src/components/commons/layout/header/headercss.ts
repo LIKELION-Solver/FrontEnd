@@ -28,18 +28,26 @@ const NavBarWrapper = styled.nav<{
       : "70px"};
   transition: max-height 0.3s ease, height 0.3s ease; /* 전환(호버 또는 상태 변경) 효과 설정 */
   /* box-sizing: border-box; */ /* 최소요소 사이즈에 맞게 */
+  @media (max-width: 450px) {
+  }
 `;
 
 /* 동적으로 확장되는 네비게이션 바 래퍼 */
 export const DynamicNavBarWrapper = styled(NavBarWrapper)`
   max-height: ${({ isDropdownVisible }) =>
     isDropdownVisible ? "100%" : "10%"}; // 최대 높이를 화면 높이의 8%로 설정
-  @media (max-width: auto) {
+  /* @media (max-width: auto) {
     // Adjust the breakpoint as needed
     flex-direction: column; // Stack the items vertically
     align-items: center; // Center-align the items
     gap: 2%;
     padding: 1%;
+  } */
+  @media (min-width: 300px) and (max-width: 450px) {
+    top: 0%;
+    left: 0%;
+    right: 0%;
+    width: 100%; // 전체 너비를 차지하도로고 요소 너비를 설정
   }
 `;
 
@@ -62,6 +70,9 @@ export const LogoImage = styled.img`
   z-index: 1;
   width: 150px; /* 로고 이미지의 원래 크기 */
   height: auto; /* 높이 자동 조절 */
+  @media (max-width: 450px) {
+    width: 80px;
+  }
 `;
 
 /* 드롭다운 메뉴 애니메이션 효과를 정의한 키프레임 */
@@ -97,6 +108,7 @@ export const StyledLink = styled.div`
   padding: 10px 20px; // 내부 여백 설정
   font-size: 16px; /* 글자 크기 */
   font-weight: bold; /* 글자 굵기 */
+  border-radius: 10px;
   /* text-transform: uppercase; 대문자 변환 */
   transition: background-color 0.3s ease, transform 0.3s ease; /* 트랜지션 효과 */
   /* text-align: center; 가운데 정렬 */
@@ -122,6 +134,20 @@ export const StyledLink = styled.div`
     margin-right: 20px; /* 오른쪽 여백 설정 */
   // } */
   transition: none; /* 트랜지션 없음 */
+  @media (max-width: 450px) {
+    position: static;
+    left: 20%;
+    /* width: 10%; */
+    display: flex; /* 요소를 가로로 배치 */
+    justify-content: center; /* 가로 정렬 */
+    align-items: center;
+    cursor: pointer; /* 커서 스타일 */
+    width: 100px;
+
+    font-size: 12px; /* 수정: 더 큰 글자 크기 */
+    font-weight: bold; /* 글자 굵기 */
+    box-sizing: border-box; //최소요소 사이즈에 맞게
+  }
 `;
 
 /* 드롭다운 메뉴 항목 스타일링 */
@@ -148,6 +174,7 @@ export const DropdownItemStyledLink = styled.div`
   cursor: pointer; /* 커서 스타일 */
   /* font-size: 16px;  */
   font-weight: bold; /* 글자 굵기 */
+  border-radius: 10px;
   transition: background-color 0.3s ease, transform 0.3s ease; /* 트랜지션 효과 */
 
   &:hover {
@@ -192,5 +219,24 @@ export const StyledDropdown = styled.div<{ isVisible: boolean }>`
           : slideFadeOutDropdownAnimation}
       0.4s ease; /* 애니메이션 설정 */
     animation-fill-mode: forwards; /* 애니메이션 상태 설정 */
+  }
+`;
+
+export const NavDynamicSize = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  padding-left: 20%;
+  padding-right: 2%;
+
+  @media (max-width: 450px) {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    padding-left: 20%;
+    padding-right: 2%;
+    padding-top: 7%;
+  }
+  @media (min-width: 769px) and (max-width: 770px) {
   }
 `;

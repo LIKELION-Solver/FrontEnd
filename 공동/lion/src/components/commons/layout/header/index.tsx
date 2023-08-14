@@ -18,6 +18,7 @@ import {
   DropdownItemStyledLink,
   LogoContainer,
   LogoImage,
+  NavDynamicSize,
 } from "./headercss";
 import axios from "axios";
 
@@ -205,7 +206,7 @@ const LayoutHeader = (): JSX.Element => {
         <LogoImage src="/logo.png" alt="로고" />
       </LogoContainer>
 
-      <div
+      {/* <div
         style={{
           // position: "fixed",
           width: "100%",
@@ -213,9 +214,10 @@ const LayoutHeader = (): JSX.Element => {
           justifyContent: "flex-end",
           paddingLeft: "20%",
           paddingRight: "2%",
-          paddingTop: "1%",
+          // paddingTop: "1%",
         }}
-      >
+      > */}
+      <NavDynamicSize>
         {/* "질문방"으로 이동하는 링크 */}
         <div style={{ margin: "1%" }}>
           {/* 헤더가 확장됨에 따라 요소는 같이 확장시키지 않기 위한 div */}
@@ -253,7 +255,7 @@ const LayoutHeader = (): JSX.Element => {
             }}
             className={router.pathname === "/Study" ? "selected" : ""}
           >
-            지식 공유방
+            스터디
           </StyledLink>
         </div>
 
@@ -291,7 +293,7 @@ const LayoutHeader = (): JSX.Element => {
             </div>
           </StyledLink>
         </div>
-      </div>
+      </NavDynamicSize>
       {/* 로그인 패널 표시 및 사용자가 로그인하지 않은 경우 로그인 버튼 표시 */}
       {isLoginVisible && !isLoginUserName && <LoginButton />}
     </DynamicNavBarWrapper>

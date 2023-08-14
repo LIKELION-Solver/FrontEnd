@@ -123,7 +123,154 @@
 
 // export default Login;
 
-// 코드캠프 백엔드 현재 작동완료
+// 코드캠프 백엔드 연결
+// import React, { useState, useEffect } from "react";
+// import Link from "next/link";
+// import { useRecoilState } from "recoil";
+// import { userNameState, isLoginState } from "../../commons/recoilState";
+// import axios from "axios";
+// import {
+//   ButtonWithMarginTop,
+//   Footer,
+//   StyledInput,
+//   LoginWrapper,
+//   LoginFormWrapper,
+// } from "./logincss";
+// import { useRouter } from "next/router";
+
+// const Login = (): JSX.Element => {
+//   const [userName, setUserName] = useRecoilState(userNameState);
+//   const [isLogin, setIsLogin] = useRecoilState(isLoginState);
+//   const router = useRouter();
+
+//   const [formData, setFormData] = useState({
+//     username: "",
+//     password: "",
+//   });
+
+//   useEffect(() => {
+//     const storedIsLoggedIn = localStorage.getItem("isLoggedIn");
+//     const storedUsername = localStorage.getItem("username");
+
+//     if (storedIsLoggedIn === "true" && storedUsername) {
+//       setUserName(storedUsername);
+//       setIsLogin(true);
+//     }
+//   }, []); // 최초 로드 시에만 실행될 useEffect
+
+//   const onChangeInput = (event: React.ChangeEvent<HTMLInputElement>): void => {
+//     const { name, value } = event.target;
+//     setFormData((prevData) => ({ ...prevData, [name]: value }));
+//   };
+
+//   const onSubmitLogin = async (
+//     event: React.FormEvent<HTMLFormElement>
+//   ): Promise<void> => {
+//     event.preventDefault();
+
+//     try {
+//       // 로그인 통신에 성공하면
+//       const response = await axios.post(
+//         "http://backend-practice.codebootcamp.co.kr/graphql",
+//         {
+//           query: `
+//             mutation {
+//               loginUser(email: "${formData.username}", password: "${formData.password}") {
+//                 accessToken
+//               }
+//             }
+//           `,
+//         },
+//         {
+//           headers: {
+//             "Content-Type": "application/json",
+//           },
+//         }
+//       );
+
+//       if (response.data.data.loginUser.accessToken) {
+//         const accessToken = response.data.data.loginUser.accessToken;
+
+//         const userResponse = await axios.post(
+//           "http://backend-practice.codebootcamp.co.kr/graphql",
+//           {
+//             query: `
+//               query {
+//                 fetchUserLoggedIn {
+//                   email
+//                   name
+//                 }
+//               }
+//             `,
+//           },
+//           {
+//             headers: {
+//               "Content-Type": "application/json",
+//               Authorization: `Bearer ${accessToken}`,
+//             },
+//           }
+//         );
+
+//         if (userResponse.data.data.fetchUserLoggedIn) {
+//           const userName = userResponse.data.data.fetchUserLoggedIn.name;
+
+//           localStorage.setItem("isLoggedIn", "true");
+//           localStorage.setItem("username", userName);
+//           setUserName(userName);
+//           setIsLogin(true);
+
+//           // 페이지를 리로드 -> 애니메이션 버그를 해결하기 위해(먼저 localStorage가 선행되어야함)
+//           window.location.reload();
+//         } else {
+//           console.log("User data fetch failed");
+//         }
+//       } else {
+//         console.log("Login failed");
+//       }
+//     } catch (error) {
+//       console.error("Error logging in:", error);
+//       alert("로그인에 실패했습니다. 아이디와 비밀번호를 확인해주세요.");
+//     }
+//   };
+
+//   return (
+//     <div style={{ display: "flex", justifyContent: "flex-end" }}>
+//       <LoginWrapper>
+//         <LoginFormWrapper>
+//           <h3 style={{ marginBottom: "4px" }}>로그인</h3>
+//           <form onSubmit={onSubmitLogin}>
+//             <StyledInput
+//               autoComplete="username"
+//               name="username"
+//               placeholder="id"
+//               value={formData.username}
+//               onChange={onChangeInput}
+//             />
+//             <StyledInput
+//               autoComplete="current-password"
+//               name="password"
+//               placeholder="password"
+//               type="password"
+//               value={formData.password}
+//               onChange={onChangeInput}
+//             />
+//             <ButtonWithMarginTop fullWidth type="submit">
+//               로그인
+//             </ButtonWithMarginTop>
+//           </form>
+//           <Footer>
+//             <Link href="/Register">회원가입</Link>
+//           </Footer>
+//         </LoginFormWrapper>
+//       </LoginWrapper>
+//     </div>
+//   );
+// };
+
+// export default Login;
+
+// 코드캠프 백엔드 연결
+// src/components/units/login/index.tsx
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRecoilState } from "recoil";
