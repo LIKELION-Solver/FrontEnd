@@ -50,7 +50,7 @@ const Total = styled.div`
   font-family: 'Pretendard-Regular';
 `;
 
-
+//페이지 네이션 스타일
 const PaginationBox = styled.div`
 .pagination { display: flex; justify-content: center; margin-top: 15px;}
 ul { list-style: none; padding: 0; }
