@@ -5,6 +5,7 @@ import Post from './resource';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import Pagination from 'react-js-pagination';
+//자료실 페이지
 const Container = styled.div`
   max-width: 1000px;
   margin: 0 auto;
