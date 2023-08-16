@@ -307,10 +307,20 @@ const Login = (): JSX.Element => {
   useEffect(() => {
     const storedIsLoggedIn = localStorage.getItem("isLoggedIn");
     const storedUsername = localStorage.getItem("username");
+    const storedAccessToken = localStorage.getItem("accessToken");
 
     if (storedIsLoggedIn === "true" && storedUsername) {
       setUserName(storedUsername);
       setIsLogin(true);
+
+      // 엑세스 토큰이 존재하면 50분마다 갱신
+      if (storedAccessToken) {
+        const refreshTokenInterval = setInterval(() => {
+          refreshToken();
+        }, 50 * 60 * 1000); // 50분마다 실행 (단위: 밀리초)
+
+        return () => clearInterval(refreshTokenInterval); // 컴포넌트 언마운트 시 인터벌 제거
+      }
     }
   }, []);
 
@@ -350,6 +360,37 @@ const Login = (): JSX.Element => {
     } catch (error) {
       console.error("Error logging in:", error);
       alert("로그인에 실패했습니다. 아이디와 비밀번호를 확인해주세요.");
+    }
+  };
+
+  const refreshToken = async () => {
+    try {
+      const response = await axios.post(
+        "http://backend-practice.codebootcamp.co.kr/graphql",
+        {
+          query: `
+            mutation {
+              refreshToken {
+                accessToken
+              }
+            }
+          `,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (response.data.data.refreshToken.accessToken) {
+        const accessToken = response.data.data.refreshToken.accessToken;
+        localStorage.setItem("accessToken", accessToken);
+      } else {
+        console.log("Token refresh failed");
+      }
+    } catch (error) {
+      console.error("Error refreshing token:", error);
     }
   };
 

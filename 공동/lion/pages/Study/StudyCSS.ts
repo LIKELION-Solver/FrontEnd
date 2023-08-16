@@ -25,7 +25,7 @@ export const FilterTags = styled.div`
 `;
 
 export const TagButton = styled.button<{ active: boolean }>`
-  background-color: ${(props) => (props.active ? "#007bff" : "#f0f0f0")};
+  background-color: ${(props) => (props.active ? "#5eb6f6" : "#f0f0f0")};
   color: ${(props) => (props.active ? "#fff" : "#000")};
   border: none;
   border-radius: 5px;
@@ -42,7 +42,7 @@ export const GroupButton = styled.button`
   cursor: pointer;
 `;
 
-export const QuestionCard = styled.div`
+export const StudyComponent = styled.div`
   background-color: #fff;
   border: 1px solid #e0e0e0;
   border-radius: 10px;
@@ -50,13 +50,10 @@ export const QuestionCard = styled.div`
   margin-bottom: 20px;
 `;
 
-// export const LoadMoreButton = styled.button`
-//   background-color: #007bff;
-//   color: #fff;
-//   border: none;
-//   border-radius: 5px;
-//   padding: 5px 10px;
-//   margin-top: 10px;
-//   cursor: pointer;
-//   align-self: center;
-// `;
+export const StudySerach = styled.input`
+  width: 50%;
+  padding: 10px;
+  border-radius: 20px;
+  margin-bottom: 2%;
+  border-color: #5eb6f6;
+`;
