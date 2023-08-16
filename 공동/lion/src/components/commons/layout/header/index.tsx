@@ -173,9 +173,7 @@ const LayoutHeader = (): JSX.Element => {
         </DropdownItem>
         {/* 질문 작성 링크 */}
         <DropdownItem>
-          <DropdownItemStyledLink onClick={() => onClickHeader("/QnaWrite")}
-          className={router.pathname === "/QnaWrite" ? "selected" : ""}
-          >
+          <DropdownItemStyledLink onClick={() => onClickHeader("/Write")}>
             질문 작성
           </DropdownItemStyledLink>
         </DropdownItem>
