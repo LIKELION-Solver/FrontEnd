@@ -1,24 +1,6 @@
 import styled from "@emotion/styled";
 
-export const PageContainer = styled.div`
-  height: calc(100vh - 90px); /* Account for header (60px) + footer (30px) */
-  overflow: hidden;
-`;
 
-export const QuestionRoomWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin-top: 20px;
-  padding: 20px; /* Add padding to create some space */
-  flex-grow: 1; /* Allow the content to grow to fill available space */
-
-  /* Limit the height of the content area so it doesn't overlap with the footer */
-  max-height: calc(
-    100vh - 90px
-  ); /* Account for header (60px) + footer (30px) */
-
-  //overflow-y: auto; /* Add scrolling if content overflows */
-`;
 
 export const WriteQuestionButton = styled.button`
   padding: 5px 10px;
@@ -28,6 +10,7 @@ export const WriteQuestionButton = styled.button`
   color: #fff;
   cursor: pointer;
   margin-bottom: 10px;
+  margin-right:1%;
 `;
 
 export const FilterTags = styled.div`
@@ -37,6 +20,7 @@ export const FilterTags = styled.div`
   margin-bottom: 10px;
   justify-content: center;
 `;
+
 
 export const TagButton = styled.button<{ active: boolean }>`
   background-color: ${(props) => (props.active ? "#007bff" : "#f0f0f0")};
@@ -66,10 +50,7 @@ export const QuestionCard = styled.div`
   display:flex;
   align-items: center;
 `;
-export const QuestionCardWrapper = styled.div`
-  display: flex;
-  align-items: center;
-`;
+
 
 export const TextContainer = styled.div`
   flex: 1;
@@ -84,20 +65,7 @@ export const Pagination = styled.div`
   margin-top: 20px;
 `;
 
-export const PageButton = styled.button`
-  padding: 5px 10px;
-  margin: 0 5px;
-  background-color: ${(props) => (props.active ? '#007bff' : 'transparent')};
-  color: ${(props) => (props.active ? 'white' : '#007bff')};
-  border: 1px solid #007bff;
-  cursor: pointer;
-`;
-export const BigContain = styled.div`
-  max-width: 1000px;
-  margin: 0 auto;
-  padding: 20px;
-  font-family: 'Arial', sans-serif;
-`;
+
 export const PaginationBox = styled.div`
 .pagination { display: flex; justify-content: center; margin-top: 15px;}
 ul { list-style: none; padding: 0; }

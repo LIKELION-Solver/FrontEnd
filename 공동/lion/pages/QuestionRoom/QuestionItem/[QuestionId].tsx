@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import axios from 'axios';
 import styled from '@emotion/styled';
-import {Question} from '../exampleData';
+import {Useditem2} from '../exampleData';
 const Container = styled.div`
   max-width: 800px;
   margin: 0 auto;
@@ -52,9 +52,11 @@ const BackButton = styled.button`
 const QuestionItem: React.FC = () => {
   const router = useRouter();
   const { postId } = router.query;
-  const [post, setPost] = useState<Question | null>(null);
+  const [post, setPost] = useState<Useditem2 | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [allQuestions, setAllQuestions] = useState<Useditem2[]>([]); // 모든 질문 데이터 저장
+  const [renderQuestions, setRenderQuestions] = useState<Useditem2[]>([]); // 필터링된 질문 데이터 저장
   //const postIdAsNumber = parseInt(router.query.postId, 10);
 
 
@@ -62,27 +64,76 @@ const QuestionItem: React.FC = () => {
   //http://localhost:8080/api/v1/posts/1
   //무료 api서버
 //https://jsonplaceholder.typicode.com/posts/${postId}
-  useEffect(() => {
-    async function fetchPost() {
-      try {
+  // useEffect(() => {
+  //   async function fetchPost() {
+  //     try {
         
-        const response = await axios.get(`https://jsonplaceholder.typicode.com/photos/${postId}`);
-        const data: Question = response.data;
+  //       const response = await axios.get(`https://jsonplaceholder.typicode.com/photos/${postId}`);
+  //       const data: Question = response.data;
         
-        setPost(data);
-        setLoading(false);
-      } catch (error) {
-        console.error('Error fetching post:', error);
-        setError('Error fetching post data.');
-        setLoading(false);
-      }
-    }
+  //       setPost(data);
+  //       setLoading(false);
+  //     } catch (error) {
+  //       console.error('Error fetching post:', error);
+  //       setError('Error fetching post data.');
+  //       setLoading(false);
+  //     }
+  //   }
 
-    if (postId) {
-      fetchPost();
-    }
-  }, [postId]);
+  //   if (postId) {
+  //     fetchPost();
+  //   }
+  // }, [postId]);
+  useEffect(()=>{
+    const fetchWrite = async () => {
+      try {
+        const response = await axios.post(
+          "http://backend-practice.codebootcamp.co.kr/graphql",
+          {
+            query: `
+            query {
+              fetchUseditems(
+                isSoldout: false
+                search: ""
+                page: 1
+              
+              ) {
+                _id
+                name
+                remarks
+                contents
+                price
+                tags
+             
+              }
+            }          
+            `,
+          },
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+       
+        if (response.data.data) {
+          const QuestionList = response.data.data.fetchUseditems; // fetchUseditems에서 데이터를 가져옴
+          const questionData=response.data.data.fetchUseditems;
   
+          setRenderQuestions(QuestionList);
+          setAllQuestions(QuestionList);
+        }
+      } catch (error) {
+        console.error("Error fetching study groups:", error);
+      }
+    };
+    if (1) {
+          fetchWrite();
+        }
+  },[])
+  
+  
+
   const handleBackToList = (): void => {
     void router.push("/QuestionRoom");
   };

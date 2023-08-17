@@ -284,7 +284,7 @@ import {
   LoginFormWrapper,
 } from "./logincss";
 import { useRouter } from "next/router";
-
+import { naverClientId, naverRedirectURL, naverSecret } from '../../utils/OAuth';
 const Login = (): JSX.Element => {
   const [userName, setUserName] = useRecoilState(userNameState);
   const [isLogin, setIsLogin] = useRecoilState(isLoginState);
@@ -474,6 +474,7 @@ const Login = (): JSX.Element => {
             </ButtonWithMarginTop>
           </form>
           <Footer>
+            
             <Link href="/Register">회원가입</Link>
           </Footer>
         </LoginFormWrapper>
