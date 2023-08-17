@@ -28,7 +28,7 @@ const QuestionRoom = (): JSX.Element => {
     setCurrentPage(pageNumber);
   };
   //질문쓰기
-  
+
   const deleteWrite = async (useditemId: string) => {
     try {
       const response = await axios.post(
@@ -76,6 +76,7 @@ const QuestionRoom = (): JSX.Element => {
               isSoldout: false
               search: ""
               page: 1
+            
             ) {
               _id
               name
@@ -96,7 +97,9 @@ const QuestionRoom = (): JSX.Element => {
       );
       if (response.data.data) {
         const QuestionList = response.data.data.fetchUseditems; // fetchUseditems에서 데이터를 가져옴
-        setRenderQuestions(QuestionList); 
+
+
+        setRenderQuestions(QuestionList);
         setAllQuestions(QuestionList);
       }
     } catch (error) {
@@ -107,7 +110,7 @@ const QuestionRoom = (): JSX.Element => {
 
 
   const uniqueTags = Array.from(new Set(allQuestions.flatMap((q) => q.tags)));
-  
+
   const router = useRouter();
 
   const onClickHeader = (path: string): void => {
@@ -120,8 +123,8 @@ const QuestionRoom = (): JSX.Element => {
 
   useEffect(() => {
     // 검색 쿼리와 선택된 태그에 따라 필터링하여 렌더할 질문 데이터 업데이트
-    let filtered = allQuestions;
-
+    //let filtered = allQuestions;
+    let filtered = allQuestions.filter((q) => q.tags.includes("study"));
     if (selectedTag) {
       filtered = filtered.filter((q) => q.tags.includes(selectedTag));
     }
@@ -135,12 +138,11 @@ const QuestionRoom = (): JSX.Element => {
     setRenderQuestions(filtered);
   }, [searchQuery, selectedTag, allQuestions]);
 
-  
+
   // 현재 페이지에 해당하는 데이터 계산
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const currentRenderQuestions = renderQuestions.slice(startIndex, endIndex);
-
+  const currentRenderStudy = renderQuestions.slice(startIndex, endIndex);
   const handlePostClick = (postId: number): void => {
     void router.push(`/QuestionRoom/QuestionItem/${postId}`);
   };
@@ -177,7 +179,7 @@ const QuestionRoom = (): JSX.Element => {
       </div>
 
       <div>
-        {currentRenderQuestions.map((question) => (
+        {currentRenderStudy.map((question) => (
           <QuestionCard
             key={question._id}
             onClick={() => handlePostClick(question._id)}
@@ -185,10 +187,17 @@ const QuestionRoom = (): JSX.Element => {
             <TextContainer>
               <h3>{question.remarks}</h3>
               <p>{question.contents}</p>
-              <p>Author: {question.name}</p>
-              <WriteQuestionButton onClick={() => deleteWrite(question._id)}>
+              <br />
+              
+                <p>Author: {question.name}</p>
+
+                <WriteQuestionButton onClick={() => deleteWrite(question._id)}>
                   게시글 삭제
                 </WriteQuestionButton>
+                <WriteQuestionButton>
+                  댓글달기
+                </WriteQuestionButton>
+
             </TextContainer>
             <ImageContainer>
               <img
@@ -205,7 +214,7 @@ const QuestionRoom = (): JSX.Element => {
 
       <PaginationBox>
         <Pagination
-        //현재 보고 있는 페이지
+          //현재 보고 있는 페이지
           activePage={currentPage}
           //한 페이지에 출력할 아이템 수
           itemsCountPerPage={10}

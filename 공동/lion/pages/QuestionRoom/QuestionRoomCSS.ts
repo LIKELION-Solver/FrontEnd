@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 
-  
+
 
 export const WriteQuestionButton = styled.button`
   padding: 5px 10px;
@@ -10,6 +10,7 @@ export const WriteQuestionButton = styled.button`
   color: #fff;
   cursor: pointer;
   margin-bottom: 10px;
+  margin-right:1%;
 `;
 
 export const FilterTags = styled.div`
@@ -19,6 +20,7 @@ export const FilterTags = styled.div`
   margin-bottom: 10px;
   justify-content: center;
 `;
+
 
 export const TagButton = styled.button<{ active: boolean }>`
   background-color: ${(props) => (props.active ? "#007bff" : "#f0f0f0")};

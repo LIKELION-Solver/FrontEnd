@@ -100,6 +100,7 @@ const WritePost = () => {
   const [fontStyle, setFontStyle] = useState('Arial, sans-serif');
   const [fontSize, setFontSize] = useState('16px');
   const [selectedImage, setSelectedImage] = useState(null);
+  const [tag, setTag]= useState('study');
   const router = useRouter();
   
   const handleFontChange = (e) => {
@@ -164,7 +165,7 @@ const WritePost = () => {
                   remarks: "${title}",
                   contents: ${JSON.stringify(content)},
                   price: 0,
-                  tags: ["예시", "스터디", "그룹"],
+                  tags: ["study"],
                   images: ["none"]
                 }) {
                   _id
@@ -186,7 +187,7 @@ const WritePost = () => {
           }
         );
 
-        router.push("/Study");
+        router.push("/QuestionRoom");
       }
     } catch (error) {
       console.error("스터디 등록 에러 발생:", error);

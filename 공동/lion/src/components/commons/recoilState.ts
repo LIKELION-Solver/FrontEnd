@@ -58,3 +58,7 @@ export const userNameState = atom<string | null>({
 //     return isLogin && userName !== null;
 //   },
 // });
+export const boardIdState = atom<string>({
+  key: "boardIdState",
+  default: "",
+});
