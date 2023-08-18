@@ -1,4 +1,9 @@
+<<<<<<< Updated upstream
 import { useRecoilState } from "recoil";
+=======
+import React, { useState } from "react";
+import styled from "@emotion/styled";
+>>>>>>> Stashed changes
 import { useRouter } from "next/router";
 import React from 'react';
 import styled from "@emotion/styled";
@@ -56,10 +61,46 @@ const QnAWritePage: React.FC = () => {
   const [content, setContent] = useState<string>("");
   const [tags, setTags] = useState<string>("");
 
+<<<<<<< Updated upstream
   const router = useRouter();
   //React.ChangeEvent<HTMLInputElement> ->(input elemet) 변화 감지 객체 타입
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
+=======
+const ImageUploadInput = styled.input`
+  display: none;
+`;
+
+const ImagePreview = styled.img`
+  max-width: 100%;
+  height: auto;
+  margin-top: 10px;
+`;
+const fontOptions = [
+  { label: "기본 글꼴", value: "Arial, sans-serif" },
+  { label: "Georgia", value: "Georgia, serif" },
+  { label: "Courier", value: "Courier, monospace" },
+  // 원하는 글꼴 옵션을 추가하세요
+];
+
+const sizeOptions = [
+  { label: "14px", value: "14px" },
+  { label: "16px", value: "16px" },
+  { label: "18px", value: "18px" },
+  // 원하는 크기 옵션을 추가하세요
+];
+const WritePost = () => {
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+  const [fontStyle, setFontStyle] = useState("Arial, sans-serif");
+  const [fontSize, setFontSize] = useState("16px");
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [tag, setTag] = useState("study");
+  const router = useRouter();
+
+  const handleFontChange = (e: any) => {
+    setFontStyle(e.target.value);
+>>>>>>> Stashed changes
   };
 
   const handleContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -81,6 +122,7 @@ const QnAWritePage: React.FC = () => {
   };
 
   return (
+<<<<<<< Updated upstream
     <div>
       <Cen>
        <MovieContainer>
@@ -122,3 +164,59 @@ const QnAWritePage: React.FC = () => {
 };
 
 export default QnAWritePage;
+=======
+    <WritePostContainer>
+      <h2>글쓰기</h2>
+      <form onSubmit={onSubmit}>
+        <div>
+          <FontDropdown value={fontStyle} onChange={handleFontChange}>
+            {fontOptions.map((option, index) => (
+              <option key={index} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </FontDropdown>
+          <SizeDropdown value={fontSize} onChange={handleSizeChange}>
+            {sizeOptions.map((option, index) => (
+              <option key={index} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </SizeDropdown>
+        </div>
+        <div>
+          <label>
+            이미지 첨부
+            <ImageUploadInput
+              type="file"
+              accept="image/*"
+              onChange={handleImageChange}
+            />
+          </label>
+        </div>
+        <TitleInput
+          type="text"
+          placeholder="제목을 입력하세요"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          required
+          style={{ fontFamily: fontStyle, fontSize: fontSize }}
+        />
+        <ContentTextarea
+          placeholder="내용을 입력하세요"
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
+          required
+          style={{ fontFamily: fontStyle, fontSize: fontSize }}
+        />
+        <div>
+          {selectedImage && <ImagePreview src={selectedImage} alt="Uploaded" />}
+        </div>
+        <SubmitButton type="submit">글쓰기</SubmitButton>
+      </form>
+    </WritePostContainer>
+  );
+};
+
+export default WritePost;
+>>>>>>> Stashed changes

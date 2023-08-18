@@ -21,7 +21,7 @@ const StyledButton = styled.button`
   }
   /* fullWidth props =ture */
   ${(props) =>
-    props.fullWidth &&
+    props &&
     css`
       padding-top: 0.75rem;
       padding-bottom: 0.75rem;
@@ -30,7 +30,7 @@ const StyledButton = styled.button`
     `}
   /* fullWidth cyan =ture */
   ${(props) =>
-    props.cyan &&
+    props &&
     css`
       background: ${palette.cyan[5]};
       &:hover {

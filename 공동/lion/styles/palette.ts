@@ -23,10 +23,7 @@ const palette = {
     "#0c8599",
     "#0b7285",
   ],
-  violet: [
-    "#9775fa",
-    "#7950f2"
-  ],
+  violet: ["#9775fa", "#7950f2"],
 };
 
 export default palette;
