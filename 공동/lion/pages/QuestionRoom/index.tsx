@@ -144,7 +144,7 @@ const QuestionRoom = (): JSX.Element => {
   const endIndex = startIndex + itemsPerPage;
   const currentRenderStudy = renderQuestions.slice(startIndex, endIndex);
   const handlePostClick = (postId: number): void => {
-    void router.push(`/QuestionRoom/QuestionItem/${postId}`);
+    void router.push(`/QuestionRoom/QuestionItem?postId=${postId}`);
   };
 
   return (
@@ -189,7 +189,7 @@ const QuestionRoom = (): JSX.Element => {
               <p>{question.contents}</p>
               <br />
               
-                <p>Author: {question.name}</p>
+                <p>작성자: {question.name}</p>
 
                 <WriteQuestionButton onClick={() => deleteWrite(question._id)}>
                   게시글 삭제
